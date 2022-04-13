@@ -1,6 +1,12 @@
 import logo from './logo.svg';
 import './App.css';
-import './walletProvider';
+import {providerOptions} from './walletProvider';
+
+import Web3Modal from "web3modal";
+
+const web3Modal = new Web3Modal({
+  providerOptions // required
+});
 
 function App() {
   return (
