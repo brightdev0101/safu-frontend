@@ -580,6 +580,13 @@ module.exports = function (webpackEnv) {
     },
     plugins: [
       // Generates an `index.html` file with the <script> injected.
+      new webpack.ProvidePlugin({
+        Buffer: ['buffer', 'Buffer'],
+      }),
+      new webpack.ProvidePlugin({
+          process: 'process/browser',
+      }),
+
       new HtmlWebpackPlugin(
         Object.assign(
           {},
