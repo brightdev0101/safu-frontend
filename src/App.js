@@ -1,16 +1,10 @@
 import logo from './logo.svg';
 import './App.css';
 
-import {toHex} from './utils';
-import {providerOptions} from './walletProvider';
 import Web3Modal from "web3modal";
 import { ethers } from 'ethers';
 import { useEffect, useState } from 'react';
-
-const web3Modal = new Web3Modal({
-  cacheProvider: true,
-  providerOptions 
-});
+import {providerOptions} from './walletProvider';
 
 function App() {
 
@@ -21,31 +15,36 @@ function App() {
   const [error, setError] = useState("");
   const [chainId, setChainId] = useState();
 
+  const web3Modal = new Web3Modal({
+    cacheProvider: true,
+    providerOptions 
+  });
+
   const connectWallet = async () => {
-    try {
-      const provider = await web3Modal.connect();
-      const library = new ethers.providers.Web3Provider(provider);
-      const accounts = await library.listAccounts();
-      const network = await library.getNetwork();
-      setProvider(provider);
-      setLibrary(library);
-      if (accounts) setAccount(accounts[0]);
-      setNetwork(network);
-      setChainId(network.chainId);
-    } catch (error) {
-      setError(error);
-    }
+      try {
+        const provider = await web3Modal.connect();
+        const library = new ethers.providers.Web3Provider(provider);
+        const accounts = await library.listAccounts();
+        const network = await library.getNetwork();
+        setProvider(provider);
+        setLibrary(library);
+        if (accounts) setAccount(accounts[0]);
+        setNetwork(network);
+        setChainId(network.chainId);
+      } catch (error) {
+        setError(error);
+      }
   };
 
   const refreshState = () => {
-    setAccount();
-    setChainId();
-    setNetwork("");
+      setAccount();
+      setChainId();
+      setNetwork("");
   };
 
   const disconnect = async () => {
-    await web3Modal.clearCachedProvider();
-    refreshState();
+      await web3Modal.clearCachedProvider();
+      refreshState();
   };
 
   useEffect(() => {
