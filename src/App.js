@@ -1,10 +1,24 @@
-import logo from './logo.svg';
 import './App.css';
+import React, { Component } from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { Provider } from "react-redux";
+import store from "./store.js";
 
 import Web3Modal from "web3modal";
 import { ethers } from 'ethers';
 import { useEffect, useState } from 'react';
-import {providerOptions} from './walletProvider';
+import {providerOptions} from './utils/walletProvider';
+
+import Navbar from "./components/common/Navbar";
+import Footer from "./components/common/Footer";
+import Landing from "./components/layout/Landing";
+// import Dashboard from "./components/layout/Dashboard";
+import CreateToken from "./components/layout/CreateToken";
+import Verify from "./components/layout/Verify";
+import Launchpad from "./components/layout/Launchpad";
+import AddInfo from "./components/layout/AddInfo";
+import Finish from "./components/layout/Finish";
+import LaunchpadInfo from "./components/layout/LaunchpadInfo";
 
 function App() {
 
@@ -83,23 +97,54 @@ function App() {
     }
   }, [provider]);
 
+  //   // Check for token
+  // if (localStorage.jwtToken) {
+  //   // Set auth token header auth
+  //   setAuthToken(localStorage.jwtToken);
+  //   // Decode token and get user info and exp
+  //   const decoded = jwt_decode(localStorage.jwtToken);
+  //   // Set user and isAuthenticated
+  //   store.dispatch(setCurrentUser(decoded));
+
+  //   // Check for expired token
+  //   const currentTime = Date.now() / 1000;
+  //   if (decoded.exp < currentTime) {
+  //     // Logout user
+  //     store.dispatch(logoutUser());
+  //     // Clear current Profile
+  //     store.dispatch(clearCurrentProfile());
+  //     // Redirect to login
+  //     window.location.href = "/login";
+  //   }
+  // }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        {!account ? (
-            <button onClick={connectWallet}>Connect Wallet</button>
-          ) : (
-            <button onClick={disconnect}>Disconnect</button>
-          )} 
-        <div>Connection Status: {account ? "Connected" : "Disconnected"}</div>
-        <div>Wallet Address: {account}</div>
-        <div>{`Network ID: ${chainId ? chainId : "No Network"}`}</div>
-      </header>
-    </div>
+    <Provider store={store}>
+      <Router>
+      <div className="App">
+        <Navbar />
+        <div className="container">
+          <Route exact path="/1verify" component={Verify} />
+          <Route exact path="/1verify" component={Verify} />
+          <Route exact path="/2launchpad" component={Launchpad} />
+          <Route exact path="/3addInfo" component={AddInfo} />
+          <Route exact path="/4finish" component={Finish} />
+          <Route exact path="/createToken" component={CreateToken} />
+          <Route exact path="/launchpadInfo" component={LaunchpadInfo} />
+        </div>
+        <Footer />
+          
+          {!account ? (
+              <button onClick={connectWallet}>Connect Wallet</button>
+            ) : (
+              <button onClick={disconnect}>Disconnect</button>
+            )} 
+          <div>Connection Status: {account ? "Connected" : "Disconnected"}</div>
+          <div>Wallet Address: {account}</div>
+          <div>{`Network ID: ${chainId ? chainId : "No Network"}`}</div>
+      </div>
+      </Router>
+    </Provider>
   );
 }
 
