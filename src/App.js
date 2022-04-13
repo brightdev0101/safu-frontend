@@ -1,9 +1,8 @@
 import logo from './logo.svg';
 import './App.css';
-import {xx} from './walletInit';
+import './walletProvider';
 
 function App() {
-  xx();
   return (
     <div className="App">
       <header className="App-header">
