@@ -69,23 +69,23 @@ class CreateToken extends Component {
       
         switch(fieldName) {
             case 'tokenType':
-                tokenTypeValid = isEmpty(value) ? '' : ' is invalid';
+                tokenTypeValid = isEmpty(value) ? '' : 'have value';
                 fieldValidationErrors.tokenType = tokenTypeValid ? '' : ' is invalid';
                 break;
             case 'tokenName':
-                tokenNameValid = isEmpty(value) ? '' : ' is invalid';
+                tokenNameValid = isEmpty(value) ? '' : 'have value';
                 fieldValidationErrors.tokenName = tokenNameValid ? '' : ' is invalid';
                 break;
             case 'symbol':
-                symbolValid = isEmpty(value) ? '' : ' is invalid';
+                symbolValid = isEmpty(value) ? '' : 'have value';
                 fieldValidationErrors.symbol = symbolValid ? '' : ' is invalid';
                 break;
             case 'decimals':
-                decimalsValid = isEmpty(value) ? '' : ' is invalid';
+                decimalsValid = value > 0;
                 fieldValidationErrors.decimals = decimalsValid ? '' : ' is invalid';
                 break;
             case 'totalSupply':
-                totalSupplyValid = isEmpty(value) ? '' : ' is invalid';
+                totalSupplyValid = value > 0;
                 fieldValidationErrors.totalSupply = totalSupplyValid ? '' : ' is invalid';
                 break;
             default:
@@ -108,64 +108,70 @@ class CreateToken extends Component {
         
         return (
             <>
-                <section className="ant-layout">
+                <section className="ant-layout black-background">
                     <main className="ant-layout-content MainLayout_content__2mZF9">
                         <div className="py-6 container">
-                            <div className="" id="createToken">
-                                <form  onSubmit={this.onSubmit}>
-                                    <p className="has-text-primary is-size-7">(*) is required field.</p>
-                                    {/* <div className="field">
-                                        <label htmlFor="tokenType" className="label">Token Type<sup className="has-text-danger">*</sup></label>
+                            
+                            <div style={{height: '16px'}}></div>
 
-                                        <div className="control">
-                                            <select className={classnames("form-control form-control-lg", {"is-invalid": this.state.formErrors.tokenType })} name="tokenType" id="tokenType">
-                                                <option value="standard">Standard Token</option>
-                                                <option value="liquidity">Liquidity Generator Token</option>
-                                                <option value="baby">Baby Token</option>
-                                                <option value="buyback">Buyback Baby Token</option>
-                                            </select>
-                                            <div className="invalid-feedback">{this.state.formErrors.tokenType}</div>
-                                            <p className="help is-info">Fee: 0.01 BNB</p>
+                            <div className="bg-dark  style-border ant-card ant-card-bordered">
+                                <div className="ant-card-body" id="createToken">
+                                    <h1 className="socials text-center">Create Token</h1>
+                                    <form  onSubmit={this.onSubmit}>
+                                        <p className="has-text-primary is-size-7">(*) is required field.</p>
+                                        {/* <div className="field">
+                                            <label htmlFor="tokenType" className="label">Token Type<sup className="has-text-danger">*</sup></label>
+
+                                            <div className="control">
+                                                <select className={classnames("form-control form-control-lg", {"is-invalid": this.state.formErrors.tokenType })} name="tokenType" id="tokenType">
+                                                    <option value="standard">Standard Token</option>
+                                                    <option value="liquidity">Liquidity Generator Token</option>
+                                                    <option value="baby">Baby Token</option>
+                                                    <option value="buyback">Buyback Baby Token</option>
+                                                </select>
+                                                <div className="invalid-feedback">{this.state.formErrors.tokenType}</div>
+                                                <p className="help is-info">Fee: 0.01 BNB</p>
+                                            </div>
+                                        </div> */}
+
+                                        <div className="field">
+                                            <label htmlFor="tokenName" className="label">Name<sup className="has-text-danger">*</sup></label>
+                                            <div className="control">
+
+                                                <input value={this.state.tokenName} onChange={(event) => this.handleInput(event)} className={classnames("form-control form-control-lg", {"is-invalid": this.state.formErrors.tokenName })} type="text" id="tokenName" name="tokenName" placeholder="Ex: Ethereum" maxLength="255" />
+
+                                                <div className="invalid-feedback">{this.state.formErrors.tokenName}</div>
+                                            </div>
                                         </div>
-                                    </div> */}
+                                        <div className="field"><label htmlFor="symbol" className="label">Symbol<sup className="has-text-danger">*</sup></label>
+                                            <div className="control">
+                                                <input value={this.state.symbol} onChange={(event) => this.handleInput(event)} className={classnames("form-control form-control-lg", {"is-invalid": this.state.formErrors.symbol })} type="text" id="symbol" name="symbol" placeholder="Ex: ETH" maxLength="255" />
 
-                                    <div className="field">
-                                        <label htmlFor="tokenName" className="label">Name<sup className="has-text-danger">*</sup></label>
-                                        <div className="control">
+                                                <div className="invalid-feedback">{this.state.formErrors.symbol}</div>
 
-                                            <input value={this.state.tokenName} onChange={(event) => this.handleInput(event)} className={classnames("form-control form-control-lg", {"is-invalid": this.state.formErrors.tokenName })} type="text" id="tokenName" name="tokenName" placeholder="Ex: Ethereum" maxLength="255" />
-
-                                            <div className="invalid-feedback">{this.state.formErrors.tokenName}</div>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div className="field"><label htmlFor="symbol" className="label">Symbol<sup className="has-text-danger">*</sup></label>
-                                        <div className="control">
-                                            <input value={this.state.symbol} onChange={(event) => this.handleInput(event)} className={classnames("form-control form-control-lg", {"is-invalid": this.state.formErrors.symbol })} type="text" id="symbol" name="symbol" placeholder="Ex: ETH" maxLength="255" />
+                                        <div className="field"><label htmlFor="decimals" className="label">Decimals<sup className="has-text-danger">*</sup></label>
+                                            <div className="control">
 
-                                            <div className="invalid-feedback">{this.state.formErrors.symbol}</div>
+                                                <input value={this.state.decimals} onChange={(event) => this.handleInput(event)} className={classnames("form-control form-control-lg", {"is-invalid": this.state.formErrors.decimals })} type="text" id="decimals" name="decimals" placeholder="Ex: 18" />
 
+                                                <div className="invalid-feedback">{this.state.formErrors.decimals}</div>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div className="field"><label htmlFor="decimals" className="label">Decimals<sup className="has-text-danger">*</sup></label>
-                                        <div className="control">
 
-                                            <input value={this.state.decimals} onChange={(event) => this.handleInput(event)} className={classnames("form-control form-control-lg", {"is-invalid": this.state.formErrors.decimals })} type="text" id="decimals" name="decimals" placeholder="Ex: 18" />
+                                        <div className="field"><label htmlFor="totalSupply" className="label">Total supply<sup className="has-text-danger">*</sup></label>
+                                            <div className="control">
 
-                                            <div className="invalid-feedback">{this.state.formErrors.decimals}</div>
+                                                <input value={this.state.totalSupply} onChange={(event) => this.handleInput(event)} className={classnames("form-control form-control-lg", {"is-invalid": this.state.formErrors.totalSupply })} type="text" id="totalSupply" name="totalSupply" placeholder="Ex: 100000000000" />
+
+                                                <div className="invalid-feedback">{this.state.formErrors.totalSupply}</div>
+                                            </div>
                                         </div>
-                                    </div>
-
-                                    <div className="field"><label htmlFor="totalSupply" className="label">Total supply<sup className="has-text-danger">*</sup></label>
-                                        <div className="control">
-
-                                            <input value={this.state.totalSupply} onChange={(event) => this.handleInput(event)} className={classnames("form-control form-control-lg", {"is-invalid": this.state.formErrors.totalSupply })} type="text" id="totalSupply" name="totalSupply" placeholder="Ex: 100000000000" />
-
-                                            <div className="invalid-feedback">{this.state.formErrors.totalSupply}</div>
-                                        </div>
-                                    </div>
-                                    
-                                    <div className="has-text-centered mt-6 pt-4 mb-4"><button type="submit" className="btn btn-success" disabled=""><span>Create token</span></button></div>
-                                </form>
+                                        
+                                        <div className="has-text-centered mt-6 pt-4 mb-4"><button type="submit" className="btn btn-success" disabled=""><span>Create token</span></button></div>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </main>

@@ -364,3 +364,27 @@ a.has-text-primary-dark:hover {
 .title:not(:last-child) {
     margin-bottom: 1.5rem
 }
+
+/* background style */
+.black-background {
+  background-color: #343a40;
+}
+
+.style-border {
+  border:#ebd15f solid 5px;
+}
+
+.white-font {
+  color: #fff;
+}
+/* background style */
+
+.photo {
+  height: 48px;
+  width: 48px; 
+}
+
+.socials {
+  color: #ebd15f;
+  padding: 5px;
+}
