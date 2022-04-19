@@ -131,6 +131,10 @@ a.has-text-primary-light:hover {
   color: #fdbad4!important
 }
 
+.gradBtn {
+  background-image: 'linear-gradient(135deg,#ebd15f,#fa0)'
+}
+
 .has-text-primary-dark {
   color: #c50750!important
 }
