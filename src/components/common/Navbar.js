@@ -86,13 +86,15 @@ const Navbar = () => {
         };
       }
     }, [provider]);
+
     
+       
     return ( 
     <>
         <nav className = "navbar navbar-expand-md bg-dark navbar-dark" style={{textAlign: 'left', color: '#fff', backgroundColor: '#fff'}}>
         
             <a href = "/" ><img src = { Logo } className = "photo"  alt = "logo" style={{marginLeft: '-35px'}} /></a>
-            <button onClick={!account ? connectWallet : disconnect} className="btn btn-success" style={{backgroundImage: 'linear-gradient(135deg,#ebd15f,#fa0)', marginLeft:'20px'}}>
+            <button onClick={!account ? connectWallet : disconnect } className="btn btn-success" style={{backgroundImage: 'linear-gradient(135deg,#ebd15f,#fa0)', marginLeft:'20px'}}>
               <span>{!account ? "Connect" : "Disconnect"}</span></button>
 
             {/* <p>Wallet Address: {account}</p> */}

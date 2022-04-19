@@ -48,7 +48,7 @@ const Home = () => {
         <div className="row">
           <div className=" bg-dark style-border ant-card ant-card-bordered" style={{marginBottom:'30px'}}>
               <div className="ant-card-body">
-                  <h1 className="lead text-center socials" style={{fontSize: '24px'}}>Standard</h1>
+                  <h1 className="lead text-center socials" style={{fontSize: '24px'}}>Mint Token</h1>
                   <p className="lead text-center">
                       <i>Mint standard tokens on ETH, BSC, AVAX, Cronos.</i>
                   </p>
@@ -68,7 +68,9 @@ const Home = () => {
               <div className="ant-card-body">
                   <h1 className="lead text-center socials" style={{fontSize: '24px'}}>Airdrop</h1>
                   <p className="lead text-center">
-                      <i>Go to the Airdrop of Safutrendz tokens and more</i>
+                      <i>Distribute Airdrop / Giveaway with a few clicks 
+
+Supports only BSC Token, More chains coming soon on our Airdrop DAPP</i>
                   </p>
                   <div className="has-text-centered" ><a href="https://multisender.safutrendz.com/" className="btn btn-success"><span>Go Now</span></a></div>
               </div>
