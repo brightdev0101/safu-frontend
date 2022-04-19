@@ -21,12 +21,12 @@ class LaunchPad1 extends Component {
     handleInput (e) {
         const name = e.target.name;
         const value = e.target.value;
-        // this.setState({[name]: value}, () => { this.validateField(name, value)});
+        this.setState({[name]: value}, () => { this.validateField(name, value)});
 
-        this.props.dispatch({
-            type: 'GET_VERIFY',
-            payload: e.target.value
-        });
+        // this.props.dispatch({
+        //     type: 'GET_VERIFY',
+        //     payload: e.target.value
+        // });
     }
     
     validateField(fieldName, value) {
@@ -35,7 +35,7 @@ class LaunchPad1 extends Component {
       
         switch(fieldName) {
           case 'tokenAddress':
-            tokenAddressValid =  value.match(/^(0x[0-9a-f]{2})(,0x[0-9a-f]{2})*$/i);
+            tokenAddressValid =  value.match(/^(0x[0-9a-f]{40})(,0x[0-9a-f]{40})*$/i);
             fieldValidationErrors.tokenAddress = tokenAddressValid ? '' : ' is invalid';
             break;
           default:
@@ -85,7 +85,7 @@ class LaunchPad1 extends Component {
                                                 <p className="help is-info">Create pool fee: 0.01 BNB</p>
                                             </div>
                                         </div>
-                                        <div className="has-text-centered" ><a href='/LaunchPad2' className="btn btn-primary"><span>Next</span></a></div>
+                                        <div className="has-text-centered" ><a href={this.state.formValid?'/LaunchPad2':'#'} className="btn btn-primary"><span>Next</span></a></div>
                                     </form>
                                 </div>
                             </div>
