@@ -1,13 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { withRouter, Link } from "react-router-dom";
-import classnames from "classnames";
-import isEmpty from "../../validation/isEmpty";
 import "./styles.css";
-
-
-import PropTypes from "prop-types";
-
 
 class LaunchPad4 extends Component {
     constructor (props) {

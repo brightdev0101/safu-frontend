@@ -47,8 +47,8 @@ const Navbar = () => {
         
             <a href = "/" ><img src = { Logo } className = "photo"  alt = "logo" style={{marginLeft: '-35px'}} /></a>
             
-            <img onClick={login} width="40" src={MetamaskImg} alt="m" />
-            <img onClick={login2} width="40" src={WalletconnectImg} alt="w" />
+            <img onClick={login} width="50" src={MetamaskImg} className="rounded-circle" style={{marginRight:'20px', marginLeft:'20px'}} alt="m" />
+            <img onClick={login2} width="50" src={WalletconnectImg}  className="rounded-circle" style={{marginRight:'20px'}}alt="w" />
 
             <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
                 <span className="navbar-toggler-icon"></span>

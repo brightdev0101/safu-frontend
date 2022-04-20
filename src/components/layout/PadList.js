@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 // import '../../assets/css/main_chunk.css';
-
+import Card from "./Card";
 
 const PadList = () => {
   
@@ -21,6 +21,7 @@ const PadList = () => {
             </div>
         </div>
         <div className="row gx-lg-5 ml-3 mr-1" style={{}}>
+            <Card title='WWW' status='Live'/>
             <div className="col-lg-3 col-xxl-4 mb-5">
                 <div className="card bg-light border-0 h-100">
                     <div className="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">

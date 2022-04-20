@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { withRouter, Link } from "react-router-dom";
 import classnames from "classnames";
-import PropTypes from "prop-types";
-import { GET_VERIFY } from "../../actions/types";
+import { getVerify } from "../../actions/verifyActions";
+import { bindActionCreators } from "redux";
 
 import "./styles.css";
 
@@ -11,22 +10,17 @@ class LaunchPad1 extends Component {
     constructor (props) {
         super(props);
         this.state = {
-            // tokenAddress: '',
+            tokenAddress: '',
             formErrors: {tokenAddress: ''},
             tokenAddressValid: false,
             formValid: false
         };
     }
-
     handleInput (e) {
         const name = e.target.name;
         const value = e.target.value;
         this.setState({[name]: value}, () => { this.validateField(name, value)});
-
-        // this.props.dispatch({
-        //     type: 'GET_VERIFY',
-        //     payload: e.target.value
-        // });
+        this.props.verifyShare(this.state.tokenAddress)
     }
     
     validateField(fieldName, value) {
@@ -35,7 +29,7 @@ class LaunchPad1 extends Component {
       
         switch(fieldName) {
           case 'tokenAddress':
-            tokenAddressValid =  value.match(/^(0x[0-9a-f]{40})(,0x[0-9a-f]{40})*$/i);
+            tokenAddressValid =  value.match(/^(0x[0-9a-f]{2})(,0x[0-9a-f]{2})*$/i);
             fieldValidationErrors.tokenAddress = tokenAddressValid ? '' : ' is invalid';
             break;
           default:
@@ -51,8 +45,6 @@ class LaunchPad1 extends Component {
     }
 
     render() {
-        // const  tokenAddress  = this.props.getVerify(this.props.tokenAddress).payload;
-       
         return (
             <>
                 <section className="ant-layout black-background">
@@ -63,7 +55,7 @@ class LaunchPad1 extends Component {
 
                             <div className="bg-dark  style-border ant-card ant-card-bordered">
                                 <div className="ant-card-body">
-                                    <h1 className="socials text-center">Verify Token</h1>
+                                    <h1 className="socials text-center">Verify Token{this.props.tokenAddress}</h1>
                                     <p className="lead text-center">
                                         <i>Enter the token address and verify</i>
                                     </p>
@@ -79,7 +71,7 @@ class LaunchPad1 extends Component {
                                                 </div>
                                             </div>
                                             <div className="form-group">
-                                                <input name="tokenAddress" value={this.props.tokenAddress} onChange={(event) => this.handleInput(event)} className={classnames("form-control form-control-lg", {"is-invalid": this.state.formErrors.tokenAddress })} type="text" placeholder="Ex: 0x..." id="tokenAddress" autoComplete="off"/>
+                                                <input name="tokenAddress" value={this.state.tokenAddress} onChange={(event) => this.handleInput(event)} className={classnames("form-control form-control-lg", {"is-invalid": this.state.formErrors.tokenAddress })} type="text" placeholder="Ex: 0x..." id="tokenAddress" autoComplete="off"/>
 
                                                 <div className="invalid-feedback">{this.state.formErrors.tokenAddress}</div>
                                                 <p className="help is-info">Create pool fee: 0.01 BNB</p>
@@ -100,16 +92,16 @@ class LaunchPad1 extends Component {
 LaunchPad1.propTypes = {
     // verify: PropTypes.string.isRequired
 };
-const mapDispatchToProps = dispatch => ({
-    dispatch                // ← Add this
-})
-const mapStateToProps = state => 
-    // (alert(state.tokenAddress))
-({
+
+const mapStateToProps = state => ({
     tokenAddress: state.tokenAddress
 });
   
+const mapDistachToProps = () => dispatch => {
+    return bindActionCreators({ verifyShare: getVerify }, dispatch);
+}
+  
 export default connect(
     mapStateToProps,
-    mapDispatchToProps
+    mapDistachToProps
 )(LaunchPad1);
