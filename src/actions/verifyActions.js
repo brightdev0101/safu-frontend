@@ -5,6 +5,7 @@ import {
 
 // Get current data
 export const getVerify = (data) => {
+  console.log("action====>"+data)
   return {
     type: GET_VERIFY,
     payload: data

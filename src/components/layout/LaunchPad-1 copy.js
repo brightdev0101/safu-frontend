@@ -23,6 +23,7 @@ class LaunchPad1 extends Component {
             tokenAddressValid: false,
             formValid: false
         };
+        console.log(this.state.tokenAddress);
     }
 
     // setState(state) {
@@ -34,9 +35,8 @@ class LaunchPad1 extends Component {
         const name = e.target.name;
         const value = e.target.value;
         this.setState({[name]: value}, () => { this.validateField(name, value)});
-        // this.props.verifyShare(this.state.tokenAddress)
-        // console.log("**************"+this.props.verifyShare(this.state.tokenAddress))
-        window.localStorage.setItem(name, JSON.stringify(value));
+        this.props.verifyShare(this.state.tokenAddress)
+        console.log("**************"+this.props.verifyShare(this.state.tokenAddress))
     }
     
     validateField(fieldName, value) {
@@ -61,6 +61,7 @@ class LaunchPad1 extends Component {
     }
 
     render() {
+        console.log("com====>"+this.props.tokenAddress);
         return (
             <>
                 <section className="ant-layout black-background">
@@ -71,7 +72,7 @@ class LaunchPad1 extends Component {
 
                             <div className="bg-dark  style-border ant-card ant-card-bordered">
                                 <div className="ant-card-body">
-                                    <h1 className="socials text-center">Verify Token{ window.localStorage.getItem('tokenAddress')}</h1>
+                                    <h1 className="socials text-center">Verify Token{this.props.tokenAddress}</h1>
                                     <p className="lead text-center">
                                         <i>Enter the token address and verify</i>
                                     </p>
@@ -93,7 +94,7 @@ class LaunchPad1 extends Component {
                                                 <p className="help is-info">Create pool fee: 0.01 BNB</p>
                                             </div>
                                         </div>
-                                        <div className="has-text-centered" ><Link href={this.state.formValid?'/LaunchPad2':'/LaunchPad2'} className="btn btn-primary"><span>Next</span></Link></div>
+                                        <div className="has-text-centered" ><a href={this.state.formValid?'/LaunchPad2':'/LaunchPad2'} className="btn btn-primary"><span>Next</span></a></div>
                                     </form>
                                 </div>
                             </div>
@@ -105,6 +106,22 @@ class LaunchPad1 extends Component {
         );
     }
 };
+LaunchPad1.propTypes = {
+    // tokenAddress: PropTypes.string.isRequired,
+    // getVerify: PropTypes.func.isRequired
+};
 
+const mapStateToProps = state => {
+    console.log("componentstate====>"+state.verify.tokenAddress);
+    return ({
+    tokenAddress: state.verify.tokenAddress
+})};
   
-export default LaunchPad1;
+const mapDistachToProps = () => dispatch => {
+    return bindActionCreators({ verifyShare: getVerify }, dispatch);
+}
+  
+export default connect(
+    mapStateToProps,
+    mapDistachToProps
+)(LaunchPad1);

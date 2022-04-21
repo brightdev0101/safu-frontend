@@ -36,7 +36,7 @@ const Home = () => {
                         <p className="lead text-center">
                             <i>Mint standard tokens on ETH, BSC, AVAX, Cronos.</i>
                         </p>
-                        <div className="has-text-centered" ><a href="/CreateToken" className="btn gradBtn btn-success" style={{backgroundImage: 'linear-gradient(135deg,#ebd15f,#fa0)'}}><span>Create Now</span></a></div>
+                        <div className="has-text-centered" ><Link to="/CreateToken" className="btn gradBtn btn-success" style={{backgroundImage: 'linear-gradient(135deg,#ebd15f,#fa0)'}}><span>Create Now</span></Link></div>
                     </div>
                 </div>
                 <div className="bg-dark style-border ant-card ant-card-bordered" style={{marginBottom:'30px'}}>

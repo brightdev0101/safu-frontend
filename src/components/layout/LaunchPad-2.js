@@ -6,7 +6,7 @@ import isEmpty from "../../validation/isEmpty";
 import "./styles.css";
 
 
-class Launchpad2 extends Component {
+class LaunchPad2 extends Component {
     constructor (props) {
         super(props);
         this.state = {
@@ -156,7 +156,7 @@ class Launchpad2 extends Component {
       
     render(){
 
-        
+        const aaa = window.localStorage.getItem('tokenAddress');
 
         return (
             <>
@@ -166,7 +166,7 @@ class Launchpad2 extends Component {
                             <div style={{height: '16px'}}></div>
                             <div className="bg-dark style-border  ant-card ant-card-bordered">
                                 <div className="ant-card-body">
-                                    <h1 className="socials text-center">Launchpad Info</h1>
+                                    <h1 className="socials text-center">Launchpad Info{aaa}</h1>
                                     <p className="lead text-center">
                                         <i>Enter the launchpad information that you want to raise , that should be enter all details about your presale</i>
                                     </p>
@@ -346,4 +346,12 @@ class Launchpad2 extends Component {
     
 };
 
-export default Launchpad2;
+const mapStateToProps = state => {
+    return ({
+    tokenAddress: state.verify.tokenAddress
+})};
+  
+
+export default connect(
+    mapStateToProps
+)(LaunchPad2);
