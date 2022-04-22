@@ -70,14 +70,15 @@ const Card = ({
                           <div>Sale Ends In:</div>
                           <div className="countdown-text"><strong><span>{date}</span><span className="dotdot">:</span><span>{hour}</span><span className="dotdot">:</span><span>{minute}</span><span className="dotdot">:</span><span>{second}</span></strong></div>
                       </div>
-                      <div className="view-pool has-text-right">
-                          <a className="view-button" href="/PadInfo">
-                          {/* 0xaCD587c5dB11796682F6B1C9d88Cd08DB3bAEE50?chain=BSC-Test"> */}
-                              <span className="badge rounded-pill bg-warning">View Pool</span>
-                          </a>
-                      </div>
+                      
                   </div>
-              </div>
+              </div><br/>
+                <div className="view-pool has-text-right">
+                    <a className="view-button" href="/PadInfo" >
+                    {/* 0xaCD587c5dB11796682F6B1C9d88Cd08DB3bAEE50?chain=BSC-Test"> */}
+                        <span className="btn btn-primary rounded-pill"  style={{backgroundImage: 'linear-gradient(135deg,#ebd15f,#fa0)'}}>View Pool</span>
+                    </a>
+                </div>
           </div>
       </div>
     </div>

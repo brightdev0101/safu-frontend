@@ -23,6 +23,7 @@ class LaunchPad3 extends Component {
         const name = e.target.name;
         const value = e.target.value;
         this.setState({[name]: value}, () => { this.validateField(name, value)});
+        window.localStorage.setItem(name, value);
     }
     
     validateField(fieldName, value) {
@@ -156,7 +157,7 @@ class LaunchPad3 extends Component {
                                         </div>
 
                                         <div className="has-text-centered">
-                                            <a href="/LaunchPad2" className="btn btn-secondary"><span>Back</span></a><span className="mr-4"></span><a href={this.state.formValid?'/LaunchPad4':'#'} className="btn btn-primary"><span>Next</span></a>
+                                            <a href="/LaunchPad2" className="btn btn-secondary"  style={{backgroundImage: 'linear-gradient(135deg,#ebd15f,#fa0)'}}><span>Back</span></a><span className="mr-4"></span><a href={this.state.formValid?'/LaunchPad4':'#'} className="btn btn-primary"  style={{backgroundImage: 'linear-gradient(135deg,#ebd15f,#fa0)'}}><span>Next</span></a>
                                         </div>
                                     </form>
                                 </div>

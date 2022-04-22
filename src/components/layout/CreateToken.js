@@ -169,7 +169,7 @@ class CreateToken extends Component {
                                             </div>
                                         </div>
                                         
-                                        <div className="has-text-centered mt-6 pt-4 mb-4"><button type="submit" className="btn btn-success" disabled=""><span>Create token</span></button></div>
+                                        <div className="has-text-centered mt-6 pt-4 mb-4"><button type="submit" className="btn btn-success" disabled=""  style={{backgroundImage: 'linear-gradient(135deg,#ebd15f,#fa0)'}}><span>Create token</span></button></div>
                                     </form>
                                 </div>
                             </div>

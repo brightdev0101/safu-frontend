@@ -11,6 +11,7 @@ const Navbar = () => {
   const { authenticate, isAuthenticated, isAuthenticating, user, account, logout } = useMoralis();
 
   const login = async () => {
+    alert(isAuthenticated);
     if (!isAuthenticated) {
       await authenticate({signingMessage: "Connect to SaFuTrendzPad" })
         .then(function (user) {
@@ -49,6 +50,11 @@ const Navbar = () => {
             
             <img onClick={login} width="50" src={MetamaskImg} className="rounded-circle" style={{marginRight:'20px', marginLeft:'20px'}} alt="m" />
             <img onClick={login2} width="50" src={WalletconnectImg}  className="rounded-circle" style={{marginRight:'20px'}}alt="w" />
+      {!isAuthenticated ? "": <button onClick={logOut} width="50" className="btn btn-primary" 
+      style={{backgroundImage: 'linear-gradient(135deg,#ebd15f,#fa0)', marginRight:'20px'}} >
+        disconnect</button> }
+     
+            
 
             <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
                 <span className="navbar-toggler-icon"></span>

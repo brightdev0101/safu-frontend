@@ -11,19 +11,20 @@ class LaunchPad2 extends Component {
         super(props);
         this.state = {
             presaleRate: 0,
+            // optradio: false,
             softCap: 0,
             hardCap: 0,
             minBuy: 0,
             maxBuy: 0,
             liquidity: 0,
-            listingRate: 0,
-            router: '',
+            // listingRate: 0,
+            // router: '',
 
             from: '',
             to: '',
             liquidityLockTime: 0,
-            vestContributor: false,
-            teamVesting: false,
+            // vestContributor: false,
+            // teamVesting: false,
             formErrors: {
                 presaleRate: 0,
                 softCap: 0,
@@ -31,11 +32,11 @@ class LaunchPad2 extends Component {
                 minBuy: 0,
                 maxBuy: 0,
                 liquidity: 0,
-                listingRate: 0,
+                // listingRate: 0,
                 liquidityLockTime: 0,
                 from: '',
                 to: '',
-                router: ''
+                // router: ''
             },
             presaleRateValid: false,
             softCapValid: false,
@@ -46,27 +47,20 @@ class LaunchPad2 extends Component {
             listingRateValid: false,
             fromValid: false,
             toValid: false,
-            routerValid: false,
+            // routerValid: false,
             liquidityLockTimeValid: false,
 
             formValid: false
         };
-
-        this.onCheck = this.onCheck.bind(this);
-
-    }
-
-    onCheck(e) {
-        this.setState({
-          disabled: !this.state.disabled,
-          current: !this.state.current
-        });
     }
 
     handleInput (e) {
         const name = e.target.name;
         const value = e.target.value;
         this.setState({[name]: value}, () => { this.validateField(name, value)});
+        // window.localStorage.setItem(name, JSON.stringify(value));
+        // window.localStorage.name = value;
+        window.localStorage.setItem(name, value);
     }
     
     validateField(fieldName, value) {
@@ -78,10 +72,10 @@ class LaunchPad2 extends Component {
         let minBuyValid = this.state.minBuyValid;
         let maxBuyValid = this.state.maxBuyValid;
         let liquidityValid = this.state.liquidityValid;
-        let listingRateValid = this.state.listingRateValid;
+        // let listingRateValid = this.state.listingRateValid;
         let fromValid = this.state.fromValid;
         let toValid = this.state.toValid;
-        let routerValid = this.state.routerValid;
+        // let routerValid = this.state.routerValid;
 
         let liquidityLockTimeValid = this.state.liquidityLockTimeValid;
       
@@ -110,10 +104,10 @@ class LaunchPad2 extends Component {
                 liquidityValid =  value > 0;
                 fieldValidationErrors.liquidity = liquidityValid ? '' : ' is invalid';
                 break;
-            case 'listingRate':
-                listingRateValid =  value > 0;
-                fieldValidationErrors.listingRate = listingRateValid ? '' : ' is invalid';
-                break;
+            // case 'listingRate':
+            //     listingRateValid =  value > 0;
+            //     fieldValidationErrors.listingRate = listingRateValid ? '' : ' is invalid';
+            //     break;
             case 'from':
                 fromValid = isEmpty(value) ? '' : 'have value';
                 fieldValidationErrors.from = fromValid ? '' : 'must have start time.';
@@ -124,10 +118,10 @@ class LaunchPad2 extends Component {
                 fieldValidationErrors.to = this.state.to > this.state.from ? '' : 'start time must be greater than end time.'; 
 
                 break;
-            case 'router':
-                routerValid = value == '---Select Router Exchange---' ? '' : 'select router';
-                fieldValidationErrors.router = routerValid ? '' : 'select router';
-                break;
+            // case 'router':
+            //     routerValid = value == '---Select Router Exchange---' ? '' : 'select router';
+            //     fieldValidationErrors.router = routerValid ? '' : 'select router';
+            //     break;
             case 'liquidityLockTime':
                 liquidityLockTimeValid =  value > 0;
                 fieldValidationErrors.liquidityLockTime = liquidityLockTimeValid ? '' : ' is invalid';
@@ -142,21 +136,19 @@ class LaunchPad2 extends Component {
                         minBuyValid: minBuyValid,
                         maxBuyValid: maxBuyValid,
                         liquidityValid: liquidityValid,
-                        listingRateValid: listingRateValid,
+                        // listingRateValid: listingRateValid,
                         liquidityLockTimeValid: liquidityLockTimeValid,
-                        routerValid: routerValid,
+                        // routerValid: routerValid,
                         fromValid: fromValid,
                         toValid: toValid
                     }, this.validateForm);
     }
       
     validateForm() {
-        this.setState({formValid: this.state.presaleRateValid  && this.state.softCapValid && this.state.hardCapValid && this.state.minBuyValid && this.state.maxBuyValid && this.state.liquidityValid && this.state.listingRateValid && this.state.liquidityLockTimeValid });
+        this.setState({formValid: this.state.presaleRateValid  && this.state.softCapValid && this.state.hardCapValid && this.state.minBuyValid && this.state.maxBuyValid && this.state.liquidityValid && this.state.liquidityLockTimeValid });
     }
       
     render(){
-
-        const aaa = window.localStorage.getItem('tokenAddress');
 
         return (
             <>
@@ -166,7 +158,7 @@ class LaunchPad2 extends Component {
                             <div style={{height: '16px'}}></div>
                             <div className="bg-dark style-border  ant-card ant-card-bordered">
                                 <div className="ant-card-body">
-                                    <h1 className="socials text-center">Launchpad Info{aaa}</h1>
+                                    <h1 className="socials text-center">Launchpad Info</h1>
                                     <p className="lead text-center">
                                         <i>Enter the launchpad information that you want to raise , that should be enter all details about your presale</i>
                                     </p>
@@ -181,21 +173,23 @@ class LaunchPad2 extends Component {
                                                 <p className="help is-info">If I spend 1 BNB how many tokens will I receive?</p>
                                             </div>
                                         </div>
-                                        <div className="field"><label htmlFor="" className="label">Whitelist</label>
+                                        {/* <div className="field"><label htmlFor="" className="label">Whitelist</label>
                                             <div className="ant-radio-group ant-radio-group-outline">
                                                 <div className="row ml-1 ant-space ant-space-horizontal ant-space-align-center" style={{gap: '28px'}}>
-                                                <div className="form-check">
-                                                    <input type="radio" className="form-check-input" id="radio1" name="optradio" value="option1" checked />Disabled
-                                                    <label className="form-check-label" htmlFor="radio1"></label>
+                                                    <div className="form-check">
+                                                        <input type="radio" className="form-check-input" id="radio1" name="optradio" value="false" checked={this.state.optradio ==='false'? false: true}
+                                                        onChange={(event) => this.handleInput(event)}/>Disabled
+                                                        <label className="form-check-label" htmlFor="radio1"></label>
                                                     </div>
                                                     <div className="form-check">
-                                                    <input type="radio" className="form-check-input" id="radio2" name="optradio" value="option2" />Enabled
-                                                    <label className="form-check-label" htmlFor="radio2"></label>
+                                                        <input type="radio" className="form-check-input" id="radio2" name="optradio" value="true" checked={this.state.optradio === 'true'?true: false}
+                                                        onChange={(event) => this.handleInput(event)} />Enabled
+                                                        <label className="form-check-label" htmlFor="radio2"></label>
                                                     </div>
                                                 </div>
                                             </div>
                                             <p className="has-text-info is-size-7">You can enable/disable whitelist anytime</p>
-                                        </div>
+                                        </div> */}
                                         <div className="columns mb-0">
                                             <div className="column pb-0">
                                                 <div className="field"><label className="label" htmlFor="softCap">Softcap (BNB)<sup className="has-text-danger">*</sup></label>
@@ -232,7 +226,7 @@ class LaunchPad2 extends Component {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="columns">
+                                        {/* <div className="columns">
                                             <div className="column">
                                                 <div className="field">
                                                     <label className="label" htmlFor="refundType">Refund type</label>
@@ -271,7 +265,7 @@ class LaunchPad2 extends Component {
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div> */}
                                         <div className="columns">
                                             <div className="column">
                                                 <div className="field"><label className="label" htmlFor="liquidity"> liquidity (%)<sup className="has-text-danger">*</sup></label>
@@ -281,7 +275,7 @@ class LaunchPad2 extends Component {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div className="column">
+                                            {/* <div className="column">
                                                 <div className="field"><label className="label" htmlFor="listingRate"> listing rate<sup className="has-text-danger">*</sup></label>
                                                     <div className="control"><input className={classnames("form-control form-control-lg", {
                                             "is-invalid": this.state.formErrors.listingRate })} type="number" placeholder="Ex: 500" id="listingRate" name="listingRate" autoComplete="on" value={this.state.listingRate} onChange={(event) => this.handleInput(event)} />
@@ -289,16 +283,16 @@ class LaunchPad2 extends Component {
                                                         <p className="help is-info">1 BNB = 0 www</p>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> */}
                                         </div>
-                                        <ul className="mb-4">
+                                        {/* <ul className="mb-4">
                                             <li>
                                                 <p className="help is-info">Enter the percentage of raised funds that should be allocated to Liquidity on (Min 51%, Max 100%)</p>
                                             </li>
                                             <li>
                                                 <p className="help is-info">If I spend 1 BNB on how many tokens will I receive? Usually this amount is lower than presale rate to allow for a higher listing price on </p>
                                             </li>
-                                        </ul>
+                                        </ul> */}
                                         <div className="field"><label className="label" htmlFor="startTime">Select start time &amp; end time (UTC)<sup className="has-text-danger">*</sup></label>
                                             <div className="columns mb-0">
                                                 <div className="column"><label className="label" htmlFor="startTime">Start time (UTC)<sup className="has-text-danger">*</sup></label>
@@ -331,7 +325,7 @@ class LaunchPad2 extends Component {
                                         </div>
                                         
                                         <div className="has-text-centered">
-                                            <div className="has-text-info p-4">Need 0 www to create launchpad.</div><a href="/LaunchPad1" className="btn btn-secondary"><span>Back</span></a><span className="mr-4"></span><a href={this.state.formValid?'/LaunchPad3':'#'} className="btn btn-primary"><span>Next</span></a>
+                                            <div className="has-text-info p-4">Need 0 www to create launchpad.</div><a href="/LaunchPad1" className="btn btn-secondary"  style={{backgroundImage: 'linear-gradient(135deg,#ebd15f,#fa0)'}}><span>Back</span></a><span className="mr-4"></span><a href={this.state.formValid?'/LaunchPad3':'#'} className="btn btn-primary"  style={{backgroundImage: 'linear-gradient(135deg,#ebd15f,#fa0)'}}><span>Next</span></a>
                                         </div>
                                     </form>
                                 </div>

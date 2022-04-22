@@ -11,12 +11,7 @@ import "./styles.css";
 class LaunchPad1 extends Component {
     constructor (props) {
         super(props);
-        // this.state = JSON.parse(window.localStorage.getItem('state')) || {
-        //     tokenAddress: '',
-        //     formErrors: {tokenAddress: ''},
-        //     tokenAddressValid: false,
-        //     formValid: false
-        // };
+        
         this.state = {
             tokenAddress: '',
             formErrors: {tokenAddress: ''},
@@ -25,18 +20,12 @@ class LaunchPad1 extends Component {
         };
     }
 
-    // setState(state) {
-    //     window.localStorage.setItem('state', JSON.stringify(state));
-    //     super.setState(state);
-    //   }
-
     handleInput (e) {
         const name = e.target.name;
         const value = e.target.value;
         this.setState({[name]: value}, () => { this.validateField(name, value)});
-        // this.props.verifyShare(this.state.tokenAddress)
-        // console.log("**************"+this.props.verifyShare(this.state.tokenAddress))
-        window.localStorage.setItem(name, JSON.stringify(value));
+        // window.localStorage.setItem(name, JSON.stringify(value));
+        window.localStorage.setItem(name, value);
     }
     
     validateField(fieldName, value) {
@@ -62,6 +51,7 @@ class LaunchPad1 extends Component {
 
     render() {
         return (
+            // { window.localStorage.getItem('tokenAddress')}
             <>
                 <section className="ant-layout black-background">
                     <main className="ant-layout-content MainLayout_content__2mZF9">
@@ -71,7 +61,7 @@ class LaunchPad1 extends Component {
 
                             <div className="bg-dark  style-border ant-card ant-card-bordered">
                                 <div className="ant-card-body">
-                                    <h1 className="socials text-center">Verify Token{ window.localStorage.getItem('tokenAddress')}</h1>
+                                    <h1 className="socials text-center">Verify Token</h1>
                                     <p className="lead text-center">
                                         <i>Enter the token address and verify</i>
                                     </p>
@@ -83,7 +73,7 @@ class LaunchPad1 extends Component {
                                                 <div className="is-flex-grow-1 mr-4"><label className="label" htmlFor="tokenAddress">Token address<sup className="has-text-danger">*</sup></label></div>
                                                 
                                                 <div className="mt-2">
-                                                    <a href="/CreateToken" className="btn btn-success"><span>Create token</span></a>
+                                                    <a href="/CreateToken" className="btn btn-success"  style={{backgroundImage: 'linear-gradient(135deg,#ebd15f,#fa0)'}}><span>Create token</span></a>
                                                 </div>
                                             </div>
                                             <div className="form-group">
@@ -93,7 +83,7 @@ class LaunchPad1 extends Component {
                                                 <p className="help is-info">Create pool fee: 0.01 BNB</p>
                                             </div>
                                         </div>
-                                        <div className="has-text-centered" ><Link href={this.state.formValid?'/LaunchPad2':'/LaunchPad2'} className="btn btn-primary"><span>Next</span></Link></div>
+                                        <div className="has-text-centered" ><Link to={this.state.formValid?'/LaunchPad2':''} className="btn btn-primary"  style={{backgroundImage: 'linear-gradient(135deg,#ebd15f,#fa0)'}}><span>Next</span></Link></div>
                                     </form>
                                 </div>
                             </div>
@@ -105,6 +95,5 @@ class LaunchPad1 extends Component {
         );
     }
 };
-
   
 export default LaunchPad1;

@@ -23,11 +23,9 @@ class App extends Component {
     return (   
       <MoralisProvider serverUrl="https://rz5hutq1rlrl.usemoralis.com:2053/server" appId="mGHnSx9cVgnPD7LnRnCPZ7UCMhJoYilNGNIKDtO0">
         <Provider store={store}>
-          <Router>
+          <Router forceRefresh={true}>
             <div className="App">
                 <Navbar />
-
-                
                 <Switch>
                   <Route exact path="/" component={Home}/>
                   <Route exact path="/PadList" component={PadList}/>
@@ -38,7 +36,6 @@ class App extends Component {
                   <Route exact path="/LaunchPad3" component={LaunchPad3}/>
                   <Route exact path="/LaunchPad4" component={LaunchPad4}/>
                 </Switch>
-                <Link to="/LaunchPad2"><h1 >gotopage2</h1></Link>
                 <Footer />
             </div>
           </Router>

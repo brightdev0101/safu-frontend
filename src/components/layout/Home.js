@@ -29,7 +29,7 @@ const Home = () => {
                 <p className="lead text-center" style={{color:'white'}}>
                     <i>Suitable tools to get started with our launchpad, with fast, efficiency, and support towards your project and 100% decentralized.</i>
                 </p>
-                <div className="row">
+                <div className="">
                 <div className=" bg-dark style-border ant-card ant-card-bordered" style={{marginBottom:'30px'}}>
                     <div className="ant-card-body">
                         <h1 className="lead text-center socials" style={{fontSize: '24px'}}>Mint Token</h1>
