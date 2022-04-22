@@ -5,17 +5,27 @@ import Logo from './img/logo.png';
 import MetamaskImg from "./img/metamask.jpg";
 import WalletconnectImg from "./img/walletconnect.png";
 import { useMoralis } from "react-moralis";
+import Moralis from "moralis";
+import {parse, stringify} from 'flatted';
 
 const Navbar = () => {
 
   const { authenticate, isAuthenticated, isAuthenticating, user, account, logout } = useMoralis();
 
   const login = async () => {
-    alert(isAuthenticated);
     if (!isAuthenticated) {
       await authenticate({signingMessage: "Connect to SaFuTrendzPad" })
         .then(function (user) {
-          console.log("logged in user:", user);        
+          Moralis.enableWeb3().then(res=>{
+            const provider = res;
+            const userAddress = user.attributes.accounts[0];
+            const signer = provider.getSigner(userAddress);      
+                       
+            window.localStorage.setItem("signer",stringify(signer));
+            window.localStorage.setItem("userAddress",userAddress);
+            console.log("logged in: " + userAddress);
+
+          }).catch(err=>console.log(err)); 
         })
         .catch(function (error) {
           console.log(error);
@@ -27,7 +37,7 @@ const Navbar = () => {
     if (!isAuthenticated) {
       await authenticate({signingMessage: "Connect to SaFuTrendzPad",provider:"walletconnect" })
         .then(function (user) {
-          console.log("logged in user:", user);        
+          window.localStorage.setItem("walletAccount",user.attributes.accounts[0]);        
         })
         .catch(function (error) {
           console.log(error);

@@ -4,6 +4,11 @@ import { connect } from "react-redux";
 import { withRouter, Link } from "react-router-dom";
 import classnames from "classnames";
 import isEmpty from "../../validation/isEmpty";
+import {ethers} from 'ethers';
+import axios from 'axios';
+import Moralis from "moralis";
+import {parse, stringify} from 'flatted';
+import Web3 from 'web3';
 
 import "./styles.css";
 
@@ -31,25 +36,66 @@ class CreateToken extends Component {
     }
 
     onSubmit(e) {
+
         e.preventDefault();
     
-        const profileData = {
-          handle: this.state.handle,
-          company: this.state.company,
-          website: this.state.website,
-          location: this.state.location,
-          status: this.state.status,
-          skills: this.state.skills,
-          githubusername: this.state.githubusername,
-          bio: this.state.bio,
-          twitter: this.state.twitter,
-          facebook: this.state.facebook,
-          linkedin: this.state.linkedin,
-          youtube: this.state.youtube,
-          instagram: this.state.instagram
-        };
+        const tokenName = this.state.tokenName;
+        const symbol = this.state.symbol;
+        const decimals = this.state.decimals;
+        const totalSupply = this.state.totalSupply;
+
+        const signer = parse(window.localStorage.getItem("signer"));
+        const userAddress = window.localStorage.getItem("userAddress");
+
+
+        axios.get("http://localhost:3001/api/getTokenContract")
+            .then(async (res) => {
+
+                const bytecode = res.data.evm.bytecode.object;
+                const abi = res.data.abi;
+                const chainID = signer.provider._network.chainId;
+                
+                const web3 = new Web3(Web3.givenProvider);
+                const deploy_contract = new web3.eth.Contract(abi);
+                              
+                let payload = {
+                    data: '0x'+bytecode,
+                    arguments: [tokenName,symbol,decimals,totalSupply]
+                }
+
+                let parameter = {
+                    from: userAddress,
+                    gas: web3.utils.toHex(5000000),
+                    gasPrice: web3.utils.toHex(web3.utils.toWei('30', 'gwei'))
+                }
+
+                deploy_contract.deploy(payload).send(parameter, (err, transactionHash) => {
+                    console.log('Transaction Hash :', transactionHash);
+                }).on('confirmation', () => {}).then((newContractInstance) => {
+                    // console.log(newContractInstance);
+                    // console.log('Deployed Contract Address : ', newContractInstance.options.address);
+                    axios.post("http://localhost:3001/api/addTokenAddress", {
+                        userAddress: userAddress,
+                        tokenAddress: newContractInstance.options.address,
+                        chainID : chainID
+                    })
+                    .then(console.log("success")).catch(err=>console.log(err));
+                })
+                
+                // const factory = new ethers.ContractFactory(abi, bytecode, signer);    
+                
+                // let contract = await factory.deploy(tokenName, symbol, decimals, totalSupply,"0xD99D1c33F9fC3444f8101754aBC46c52416550D1");
+                
+                // await contract.deployTransaction.wait();
+                // // const contract = await factory.deploy(tokenName, symbol, decimals, totalSupply,"0xD99D1c33F9fC3444f8101754aBC46c52416550D1");                
+                // // await contract.deployTransaction.wait();
+
+                // console.log(contract.address);
+                // // console.log(contract);
+                // // address backend db save
+
+            }).catch(err => console.log(err));
     
-        // this.props.createProfile(profileData, this.props.history);
     }
 
     handleInput (e) {
