@@ -64,34 +64,37 @@ class LaunchPad1 extends Component {
     }
       
     validateForm() {
-        this.setState({formValid: this.state.tokenAddressValid},()=>{
-            if(this.state.tokenAddressValid){
-                console.log("ok");
-                const abi = this.state.abi;
-                const web3 = new Web3(Web3.givenProvider);
-                // const tokenContract = new web3.eth.Contract(abi, this.state.tokenAddress);
+        if(this.state.tokenAddressValid){
+            console.log("ok");
+            const abi = this.state.abi;
+            const web3 = new Web3(Web3.givenProvider);
 
-                // console.log(tokenContract);
+            console.log(web3.utils.isAddress(this.state.tokenAddress));
+            // const xx = web3.eth.getCode(this.state.tokenAddress);
+            // console.log(xx);
+            // const tokenContract = new web3.eth.Contract(abi, this.state.tokenAddress);
 
-                // tokenContract.methods.name().call().then(res=>{
-                //     this.setState({tokenName:res});
-                //     window.localStorage.setItem("tokenName",res);
-                // });
-                // tokenContract.methods.symbol().call().then(res=>{
-                //     this.setState({tokenSymbol:res});
-                //     window.localStorage.setItem("tokenSymbol",res);
-                // });
-                // tokenContract.methods.decimals().call().then(res=>{
-                //     this.setState({tokenDecimals:res});
-                //     window.localStorage.setItem("tokenDecimals",res);
-                // });
-                // tokenContract.methods.totalSupply().call().then(res=>{
-                //     this.setState({tokenSupply:res});
-                //     window.localStorage.setItem("tokenSupply",res);
-                // });
-                // this.setState({tokenChainValid: true});
-            }
-        });
+            // console.log(tokenContract);
+
+            // tokenContract.methods.name().call().then(res=>{
+            //     this.setState({tokenName:res});
+            //     window.localStorage.setItem("tokenName",res);
+            // });
+            // tokenContract.methods.symbol().call().then(res=>{
+            //     this.setState({tokenSymbol:res});
+            //     window.localStorage.setItem("tokenSymbol",res);
+            // });
+            // tokenContract.methods.decimals().call().then(res=>{
+            //     this.setState({tokenDecimals:res});
+            //     window.localStorage.setItem("tokenDecimals",res);
+            // });
+            // tokenContract.methods.totalSupply().call().then(res=>{
+            //     this.setState({tokenSupply:res});
+            //     window.localStorage.setItem("tokenSupply",res);
+            // });
+            // this.setState({tokenChainValid: true});
+            this.setState({formValid: this.state.tokenAddressValid});
+        }
     }
 
     render() {
