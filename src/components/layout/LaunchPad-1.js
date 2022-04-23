@@ -17,10 +17,15 @@ class LaunchPad1 extends Component {
        
         this.state = {
             abi: '',
+            tokenName:'',
+            tokenSymbol:'',
+            tokenDecimals:'',
+            tokenSupply:'',
             tokenAddress: '',
-            formErrors: {tokenAddress: ''},
+            tokenAddressError: '',
             tokenAddressValid: false,
-            formValid: false
+            formValid: false,
+            tokenChainValid: false
         };
 
         axios.get("http://localhost:3001/api/getTokenContract")
@@ -34,47 +39,59 @@ class LaunchPad1 extends Component {
         const name = e.target.name;
         const value = e.target.value;
         this.setState({[name]: value}, () => { 
-            this.validateField(name, value);
-
-            console.log(this.state.tokenAddress);
-            console.log(this.state.tokenAddressValid);
-
-            if(this.state.tokenAddressValid){
-
-                console.log("ok");
-                const abi = this.state.abi;
-                const web3 = new Web3(Web3.givenProvider);
-    
-                // console.log(abi);
-                const tokenContract = new web3.eth.Contract(abi, value);
-                // console.log(tokenContract);
-                tokenContract.methods.name().call().then(console.log);
-                tokenContract.methods.symbol().call().then(console.log);
-                window.localStorage.setItem(name, value);
-            }
+            this.validateField(name, value);  
         });
 
     }
     
     validateField(fieldName, value) {
-        let fieldValidationErrors = this.state.formErrors;
+        let tokenAddressError = this.state.tokenAddressError;
         let tokenAddressValid = this.state.tokenAddressValid;
       
-        switch(fieldName) {
-          case 'tokenAddress':
-            tokenAddressValid =  value.match(/^(0x[0-9a-f]{40})(,0x[0-9a-f]{40})*$/i);
-            fieldValidationErrors.tokenAddress = tokenAddressValid ? '' : ' is invalid';
-            break;
-          default:
-            break;
+        tokenAddressValid =  value.match(/^(0x[0-9a-f]{40})(,0x[0-9a-f]{40})*$/i);
+
+        tokenAddressError = tokenAddressValid ? '' : ' is invalid';
+
+        if(tokenAddressError == ''){
+            tokenAddressValid = true;
+        }else{
+            tokenAddressValid = false;
         }
-        this.setState({formErrors: fieldValidationErrors,
+
+        this.setState({ tokenAddressError: tokenAddressError,
                         tokenAddressValid: tokenAddressValid
-                    }, this.validateForm);
+                      }, this.validateForm);
     }
       
     validateForm() {
-        this.setState({formValid: this.state.tokenAddressValid});
+        this.setState({formValid: this.state.tokenAddressValid},()=>{
+            if(this.state.tokenAddressValid){
+                console.log("ok");
+                const abi = this.state.abi;
+                const web3 = new Web3(Web3.givenProvider);
+                // const tokenContract = new web3.eth.Contract(abi, this.state.tokenAddress);
+
+                // console.log(tokenContract);
+
+                // tokenContract.methods.name().call().then(res=>{
+                //     this.setState({tokenName:res});
+                //     window.localStorage.setItem("tokenName",res);
+                // });
+                // tokenContract.methods.symbol().call().then(res=>{
+                //     this.setState({tokenSymbol:res});
+                //     window.localStorage.setItem("tokenSymbol",res);
+                // });
+                // tokenContract.methods.decimals().call().then(res=>{
+                //     this.setState({tokenDecimals:res});
+                //     window.localStorage.setItem("tokenDecimals",res);
+                // });
+                // tokenContract.methods.totalSupply().call().then(res=>{
+                //     this.setState({tokenSupply:res});
+                //     window.localStorage.setItem("tokenSupply",res);
+                // });
+                // this.setState({tokenChainValid: true});
+            }
+        });
     }
 
     render() {
@@ -105,9 +122,9 @@ class LaunchPad1 extends Component {
                                                 </div>
                                             </div>
                                             <div className="form-group">
-                                                <input name="tokenAddress" value={this.state.tokenAddress} onChange={(event) => this.handleInput(event)} className={classnames("form-control form-control-lg", {"is-invalid": this.state.formErrors.tokenAddress })} type="text" placeholder="Ex: 0x..." id="tokenAddress" autoComplete="off"/>
+                                                <input name="tokenAddress" value={this.state.tokenAddress} onChange={(event) => this.handleInput(event)} className={classnames("form-control form-control-lg", {"is-invalid": this.state.tokenAddressError })} type="text" placeholder="Ex: 0x..." id="tokenAddress" autoComplete="off"/>
 
-                                                <div className="invalid-feedback">{this.state.formErrors.tokenAddress}</div>
+                                                <div className="invalid-feedback">{this.state.tokenAddressError}</div>
                                                 <p className="help is-info">Create pool fee: 0.01 BNB</p>
                                             </div>
                                         </div>
