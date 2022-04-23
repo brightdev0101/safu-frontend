@@ -16,6 +16,7 @@ class CreateToken extends Component {
     constructor (props) {
         super(props);
         this.state = {
+            tokenAddress:'',
             tokenType: '',
             tokenName: '',
             symbol: '',
@@ -74,6 +75,7 @@ class CreateToken extends Component {
                 }).on('confirmation', () => {}).then((newContractInstance) => {
                     // console.log(newContractInstance);
                     // console.log('Deployed Contract Address : ', newContractInstance.options.address);
+                    this.setState({'tokenAddress':newContractInstance.options.address})
                     axios.post("http://localhost:3001/api/addTokenAddress", {
                         userAddress: userAddress,
                         tokenAddress: newContractInstance.options.address,
@@ -217,6 +219,7 @@ class CreateToken extends Component {
                                         
                                         <div className="has-text-centered mt-6 pt-4 mb-4"><button type="submit" className="btn btn-success" disabled=""  style={{backgroundImage: 'linear-gradient(135deg,#ebd15f,#fa0)'}}><span>Create token</span></button></div>
                                     </form>
+                                    <p>{this.state.tokenAddress} </p>
                                 </div>
                             </div>
                         </div>
