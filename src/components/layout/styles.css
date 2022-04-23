@@ -2,10 +2,21 @@
   .has-text-centered-mobile {
       text-align: center!important
   }
+  .big-small-screen{
+    margin-left: -35px;
+    margin-right: 0px
+  }
+  #toggler{
+    margin-left: -30px;
+  }
 }
 
 @media print,
 screen and (min-width:769px) {
+  .big-small-screen{
+    margin-left: -35px;
+    margin-right: 50px
+  }
   .has-text-centered-tablet {
       text-align: center!important
   }
