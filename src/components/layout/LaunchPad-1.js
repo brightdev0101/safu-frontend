@@ -59,39 +59,47 @@ class LaunchPad1 extends Component {
         }
 
         this.setState({ tokenAddressError: tokenAddressError,
-                        tokenAddressValid: tokenAddressValid
+                        tokenAddressValid: tokenAddressValid,
+                        formValid: false
                       }, this.validateForm);
     }
       
     validateForm() {
-        this.setState({formValid: this.state.tokenAddressValid},()=>{
-            if(this.state.tokenAddressValid){
-                console.log("ok");
-                const abi = this.state.abi;
-                const web3 = new Web3(Web3.givenProvider);
-                // const tokenContract = new web3.eth.Contract(abi, this.state.tokenAddress);
+        if(this.state.tokenAddressValid){
+            const abi = this.state.abi;
+            const web3 = new Web3(Web3.givenProvider);
 
-                // console.log(tokenContract);
-
-                // tokenContract.methods.name().call().then(res=>{
-                //     this.setState({tokenName:res});
-                //     window.localStorage.setItem("tokenName",res);
-                // });
-                // tokenContract.methods.symbol().call().then(res=>{
-                //     this.setState({tokenSymbol:res});
-                //     window.localStorage.setItem("tokenSymbol",res);
-                // });
-                // tokenContract.methods.decimals().call().then(res=>{
-                //     this.setState({tokenDecimals:res});
-                //     window.localStorage.setItem("tokenDecimals",res);
-                // });
-                // tokenContract.methods.totalSupply().call().then(res=>{
-                //     this.setState({tokenSupply:res});
-                //     window.localStorage.setItem("tokenSupply",res);
-                // });
-                // this.setState({tokenChainValid: true});
-            }
-        });
+            if(web3.utils.isAddress(this.state.tokenAddress)){
+                web3.eth.getCode(this.state.tokenAddress).then(res=>{
+                    if(res != "0x"){
+                        const tokenContract = new web3.eth.Contract(abi, this.state.tokenAddress);
+                        tokenContract.methods.name().call().then(res=>{
+                            this.setState({tokenName:res});
+                            window.localStorage.setItem("tokenName",res);
+                        });
+                        tokenContract.methods.symbol().call().then(res=>{
+                            this.setState({tokenSymbol:res});
+                            window.localStorage.setItem("tokenSymbol",res);
+                        });
+                        tokenContract.methods.decimals().call().then(res=>{
+                            this.setState({tokenDecimals:res});
+                            window.localStorage.setItem("tokenDecimals",res);
+                        });
+                        tokenContract.methods.totalSupply().call().then(res=>{
+                            this.setState({tokenSupply:res});
+                            window.localStorage.setItem("tokenSupply",res);
+                        });
+                        this.setState({tokenChainValid: true});
+                        this.setState({formValid: this.state.tokenAddressValid});
+                        window.localStorage.setItem("tokenAddress",this.state.tokenAddress);
+                    }
+                }).catch(err=>console.log(err));
+            }else{
+                this.state.formValid= false;
+            }      
+        }else{
+            this.state.formValid = false;
+        }
     }
 
     render() {
@@ -128,8 +136,14 @@ class LaunchPad1 extends Component {
                                                 <p className="help is-info">Create pool fee: 0.01 BNB</p>
                                             </div>
                                         </div>
-                                        <div className="has-text-centered" ><Link to={this.state.formValid?'/LaunchPad2':''} className="btn btn-primary"  style={{backgroundImage: 'linear-gradient(135deg,#ebd15f,#fa0)'}}><span>Next</span></Link></div>
+                                        <div className="has-text-centered" ><Link to={this.state.formValid?'/LaunchPad2':'#'}><button className="btn btn-primary" disabled={!this.state.formValid}  style={{backgroundImage: 'linear-gradient(135deg,#ebd15f,#fa0)'}}>Next</button></Link></div>
                                     </form>
+                                    <div>
+                                        <p>{this.state.formValid?this.state.tokenName:''}</p>
+                                        <p>{this.state.formValid?this.state.tokenSymbol:''}</p>
+                                        <p>{this.state.formValid?this.state.tokenDecimals:''}</p>
+                                        <p>{this.state.formValid?this.state.tokenSupply:''}</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
