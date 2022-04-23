@@ -133,7 +133,7 @@ class LaunchPad1 extends Component {
                                                 <input name="tokenAddress" value={this.state.tokenAddress} onChange={(event) => this.handleInput(event)} className={classnames("form-control form-control-lg", {"is-invalid": this.state.tokenAddressError })} type="text" placeholder="Ex: 0x..." id="tokenAddress" autoComplete="off"/>
 
                                                 <div className="invalid-feedback">{this.state.tokenAddressError}</div>
-                                                <p className="help is-info">Create pool fee: 0.01 BNB</p>
+                                                <p className="help is-info">Create pool fee: 0.7 BNB</p>
                                             </div>
                                         </div>
                                         <div className="has-text-centered" ><Link to={this.state.formValid?'/LaunchPad2':'#'}><button className="btn btn-primary" disabled={!this.state.formValid}  style={{backgroundImage: 'linear-gradient(135deg,#ebd15f,#fa0)'}}>Next</button></Link></div>

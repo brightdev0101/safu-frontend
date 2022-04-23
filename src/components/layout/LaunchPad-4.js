@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import "./styles.css";
+import axios from 'axios';
+import Web3 from 'web3';
+import {parse, stringify} from 'flatted';
 
 class LaunchPad4 extends Component {
     constructor (props) {
@@ -18,26 +21,93 @@ class LaunchPad4 extends Component {
 
     }
 
+    clickB(){
+        axios.get("http://localhost:3001/api/getPresaleContract")
+            .then(async (res) => {
+                const bytecode = res.data.evm.bytecode.object;
+                const abi = res.data.abi;
+
+                console.log(abi);
+
+                const web3 = new Web3(Web3.givenProvider);
+                const presaleContract = new web3.eth.Contract(abi, window.localStorage.getItem("presaleAddress"));
+
+                console.log(presaleContract);
+                presaleContract.methods.init_presale(
+                    window.localStorage.getItem("tokenAddress"),
+                    window.localStorage.getItem("presaleRate"),
+                    window.localStorage.getItem("minBuy"),
+                    window.localStorage.getItem("maxBuy"),
+                    window.localStorage.getItem("softCap"),
+                    window.localStorage.getItem("hardCap"),
+                    window.localStorage.getItem("fromTS"),
+                    window.localStorage.getItem("toTS")
+                ).call();
+            })
+        
+    }
+
     onSubmit(e) {
+
         e.preventDefault();
     
-        const profileData = {
-          handle: this.state.handle,
-          company: this.state.company,
-          website: this.state.website,
-          location: this.state.location,
-          status: this.state.status,
-          skills: this.state.skills,
-          githubusername: this.state.githubusername,
-          bio: this.state.bio,
-          twitter: this.state.twitter,
-          facebook: this.state.facebook,
-          linkedin: this.state.linkedin,
-          youtube: this.state.youtube,
-          instagram: this.state.instagram
-        };
+        if(window.localStorage.getItem("signer")){
+            const signer = parse(window.localStorage.getItem("signer"));
+            const userAddress = window.localStorage.getItem("userAddress");
+
+            axios.get("http://localhost:3001/api/getPresaleContract")
+            .then(async (res) => {
+                const bytecode = res.data.evm.bytecode.object;
+                const abi = res.data.abi;
+                const chainID = signer.provider._network.chainId;
+
+                const web3 = new Web3(Web3.givenProvider);
+                const deploy_contract = new web3.eth.Contract(abi);
+                              
+                let payload = {
+                    data: '0x'+bytecode
+                }
+
+                let parameter = {
+                    from: userAddress,
+                    gas: web3.utils.toHex(5000000),
+                    gasPrice: web3.utils.toHex(web3.utils.toWei('30', 'gwei'))
+                }
+
+                deploy_contract.deploy(payload).send(parameter, (err, transactionHash) => {
+                    console.log('Transaction Hash :', transactionHash);
+                }).on('confirmation', () => {}).then((newContractInstance) => {
+                    // console.log(newContractInstance);
+                    console.log('Deployed Contract Address : ', newContractInstance.options.address);
+                    this.setState({'PresaleAddress':newContractInstance.options.address});
+                    window.localStorage.setItem("presaleAddress",newContractInstance.options.address);
+
+                    console.log(newContractInstance);
+                    newContractInstance.methods.init_presale(
+                        window.localStorage.getItem("tokenAddress"),
+                        window.localStorage.getItem("presaleRate"),
+                        window.localStorage.getItem("minBuy"),
+                        window.localStorage.getItem("maxBuy"),
+                        window.localStorage.getItem("softCap"),
+                        window.localStorage.getItem("hardCap"),
+                        window.localStorage.getItem("fromTS"),
+                        window.localStorage.getItem("toTS")
+                    ).send({from:userAddress});
+
+                    axios.post("http://localhost:3001/api/addPresaleAddress", {
+                        userAddress: userAddress,
+                        tokenAddress: window.localStorage.getItem("tokenAddress"),
+                        presaleAddress: newContractInstance.options.address,
+                        chainID : chainID
+                    })
+                    .then(console.log("success")).catch(err=>console.log(err));
+                })
+            }).catch(err => console.log(err));
+        } else {
+            alert('You must connect!')
+        }
+        
     
-        // this.props.createProfile(profileData, this.props.history);
     }
 
     render() {
@@ -51,6 +121,10 @@ class LaunchPad4 extends Component {
         const to = window.localStorage.to
         const liquidityLockTime = window.localStorage.liquidityLockTime
         const website = window.localStorage.website
+        const tokenName = window.localStorage.tokenName
+        const tokenSymbol = window.localStorage.tokenSymbol
+        const tokenDecimals = window.localStorage.tokenDecimals
+        const tokenSupply = window.localStorage.tokenSupply
 
         return (
             <>
@@ -64,6 +138,7 @@ class LaunchPad4 extends Component {
                                 <p className="lead text-center">
                                     <i>Review your information</i>
                                 </p>
+                                <button onClick={this.clickB}>click this</button>
                                 <form onSubmit={this.onSubmit}>
                                     <div className="table-container">
                                         <div>
@@ -71,19 +146,19 @@ class LaunchPad4 extends Component {
                                                 <tbody>
                                                     <tr>
                                                         <td width="50%">Total token</td>
-                                                        <td className="has-text-primary has-text-right"></td>
+                                                        <td className="has-text-primary has-text-right">{tokenSupply/(10**18)}</td>
                                                     </tr>
                                                     <tr>
                                                         <td width="50%">Token name</td>
-                                                        <td className="has-text-info has-text-right"></td>
+                                                        <td className="has-text-info has-text-right">{tokenName}</td>
                                                     </tr>
                                                     <tr>
                                                         <td width="50%">Token symbol</td>
-                                                        <td className="has-text-info has-text-right"></td>
+                                                        <td className="has-text-info has-text-right">{tokenSymbol}</td>
                                                     </tr>
                                                     <tr>
                                                         <td width="50%">Token decimals</td>
-                                                        <td className="has-text-info has-text-right"></td>
+                                                        <td className="has-text-info has-text-right">{tokenDecimals}</td>
                                                     </tr>
                                                     <tr>
                                                         <td width="50%">Presale rate</td>
@@ -117,10 +192,10 @@ class LaunchPad4 extends Component {
                                                         <td width="50%">Maximum buy</td>
                                                         <td className="has-text-info has-text-right">{maxBuy} BNB</td>
                                                     </tr>
-                                                    <tr>
+                                                    {/* <tr>
                                                         <td width="50%">Liquidity</td>
                                                         <td className="has-text-info has-text-right">{liquidity}%</td>
-                                                    </tr>
+                                                    </tr> */}
                                                     <tr>
                                                         <td width="50%">Start time</td>
                                                         <td className="has-text-info has-text-right">{from}</td>
@@ -129,13 +204,13 @@ class LaunchPad4 extends Component {
                                                         <td width="50%">End time</td>
                                                         <td className="has-text-info has-text-right">{to}</td>
                                                     </tr>
-                                                    <tr>
+                                                    {/* <tr>
                                                         <td width="50%">Liquidity lockup time</td>
                                                         <td className="has-text-info has-text-right">{liquidityLockTime} minutes</td>
-                                                    </tr>
+                                                    </tr> */}
                                                     <tr>
                                                         <td width="50%">Website</td>
-                                                        <td className="has-text-info has-text-right"><a href="#" target="_blank" rel="nofollow noreferrer">{website}</a></td>
+                                                        <td className="has-text-info has-text-right">{website}</td>
                                                     </tr>
                                                 </tbody>
                                             </table>

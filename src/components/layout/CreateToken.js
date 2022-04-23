@@ -47,10 +47,10 @@ class CreateToken extends Component {
         console.log(totalSupply);
         if(window.localStorage.getItem("signer")){
             const signer = parse(window.localStorage.getItem("signer"));
-        const userAddress = window.localStorage.getItem("userAddress");
-        console.log(signer);
+            const userAddress = window.localStorage.getItem("userAddress");
+            console.log(signer);
 
-        axios.get("http://localhost:3001/api/getTokenContract")
+            axios.get("http://localhost:3001/api/getTokenContract")
             .then(async (res) => {
                 const bytecode = res.data.evm.bytecode.object;
                 const abi = res.data.abi;
