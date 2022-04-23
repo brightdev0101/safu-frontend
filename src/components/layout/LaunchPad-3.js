@@ -40,7 +40,8 @@ class LaunchPad3 extends Component {
                 break;
             case 'website':
                 websiteValid = isEmpty(value) ? '' : 'have url';
-                fieldValidationErrors.website = websiteValid ? '' : 'must input sebsite url.';
+                logoUrlValid =  value.match(/^((http|https):\/\/)/);
+                fieldValidationErrors.website = websiteValid ? '' : 'must input website url.';
                 break;
             default:
                 break;
@@ -80,7 +81,7 @@ class LaunchPad3 extends Component {
                                                     <input value={this.state.logoUrl} onChange={(event) => this.handleInput(event)} className={classnames("form-control form-control-lg", {"is-invalid": this.state.formErrors.logoUrl })} type="text" placeholder="Ex: https://..." id="logoUrl" name="logoUrl" autoComplete="off"/>
 
                                                     <div className="invalid-feedback">{this.state.formErrors.logoUrl}</div>
-                                                    <p className="help is-info">URL must end with a supported image extension png, jpg, jpeg or gif. You can upload your image at <a href="https://upload.pinksale.finance/" target="_blank" rel="noopener noreferrer">https://upload.pinksale.finance/</a></p>
+                                                    <p className="help is-info">URL must end with a supported image extension png, jpg, jpeg or gif. </p>
                                                 </div>
                                                 
                                             </div>

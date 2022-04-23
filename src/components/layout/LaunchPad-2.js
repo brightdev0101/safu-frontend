@@ -16,13 +16,13 @@ class LaunchPad2 extends Component {
             hardCap: 0,
             minBuy: 0,
             maxBuy: 0,
-            liquidity: 0,
+            // liquidity: 0,
             // listingRate: 0,
             // router: '',
 
             from: '',
             to: '',
-            liquidityLockTime: 0,
+            // liquidityLockTime: 0,
             // vestContributor: false,
             // teamVesting: false,
             formErrors: {
@@ -31,9 +31,9 @@ class LaunchPad2 extends Component {
                 hardCap: 0,
                 minBuy: 0,
                 maxBuy: 0,
-                liquidity: 0,
+                // liquidity: 0,
                 // listingRate: 0,
-                liquidityLockTime: 0,
+                // liquidityLockTime: 0,
                 from: '',
                 to: '',
                 // router: ''
@@ -43,12 +43,12 @@ class LaunchPad2 extends Component {
             hardCapValid: false,
             minBuyValid: false,
             maxBuyValid: false,
-            liquidityValid: false,
-            listingRateValid: false,
+            // liquidityValid: false,
+            // listingRateValid: false,
             fromValid: false,
             toValid: false,
             // routerValid: false,
-            liquidityLockTimeValid: false,
+            // liquidityLockTimeValid: false,
 
             formValid: false
         };
@@ -58,8 +58,10 @@ class LaunchPad2 extends Component {
         const name = e.target.name;
         const value = e.target.value;
         this.setState({[name]: value}, () => { this.validateField(name, value)});
-        // window.localStorage.setItem(name, JSON.stringify(value));
-        // window.localStorage.name = value;
+        if (e.target.name == "to" || e.target.name == "from"){
+            const dateX = new Date(e.target.value);
+            window.localStorage.setItem(name+"TS",dateX.getTime());
+        }
         window.localStorage.setItem(name, value);
     }
     
@@ -71,13 +73,12 @@ class LaunchPad2 extends Component {
         let hardCapValid = this.state.hardCapValid;
         let minBuyValid = this.state.minBuyValid;
         let maxBuyValid = this.state.maxBuyValid;
-        let liquidityValid = this.state.liquidityValid;
+        // let liquidityValid = this.state.liquidityValid;
         // let listingRateValid = this.state.listingRateValid;
         let fromValid = this.state.fromValid;
         let toValid = this.state.toValid;
         // let routerValid = this.state.routerValid;
-
-        let liquidityLockTimeValid = this.state.liquidityLockTimeValid;
+        // let liquidityLockTimeValid = this.state.liquidityLockTimeValid;
       
         switch(fieldName) {
             case 'presaleRate':
@@ -85,7 +86,7 @@ class LaunchPad2 extends Component {
                 fieldValidationErrors.presaleRate = presaleRateValid ? '' : ' is invalid';
                 break;
             case 'softCap':
-                softCapValid =  value > 0;
+                softCapValid = ( value >= this.state.hardCap/4 && Number(value) < Number(this.state.hardCap) ) ;
                 fieldValidationErrors.softCap = softCapValid ? '' : ' is invalid';
                 break;
             case 'hardCap':
@@ -100,10 +101,10 @@ class LaunchPad2 extends Component {
                 maxBuyValid =  value > 0;
                 fieldValidationErrors.maxBuy = maxBuyValid ? '' : ' is invalid';
                 break;
-            case 'liquidity':
-                liquidityValid =  value > 0;
-                fieldValidationErrors.liquidity = liquidityValid ? '' : ' is invalid';
-                break;
+            // case 'liquidity':
+            //     liquidityValid =  value >= 50;
+            //     fieldValidationErrors.liquidity = liquidityValid ? '' : ' is invalid';
+            //     break;
             // case 'listingRate':
             //     listingRateValid =  value > 0;
             //     fieldValidationErrors.listingRate = listingRateValid ? '' : ' is invalid';
@@ -115,17 +116,17 @@ class LaunchPad2 extends Component {
             case 'to':
                 toValid = isEmpty(value) ? '' : 'have value';
                 fieldValidationErrors.to = toValid ? '' : 'must have end time.';
-                fieldValidationErrors.to = this.state.to > this.state.from ? '' : 'start time must be greater than end time.'; 
+                fieldValidationErrors.to = this.state.to > this.state.from ? '' : 'end time must be after start time.'; 
 
                 break;
             // case 'router':
             //     routerValid = value == '---Select Router Exchange---' ? '' : 'select router';
             //     fieldValidationErrors.router = routerValid ? '' : 'select router';
             //     break;
-            case 'liquidityLockTime':
-                liquidityLockTimeValid =  value > 0;
-                fieldValidationErrors.liquidityLockTime = liquidityLockTimeValid ? '' : ' is invalid';
-                break;
+            // case 'liquidityLockTime':
+            //     liquidityLockTimeValid =  value >= 5;
+            //     fieldValidationErrors.liquidityLockTime = liquidityLockTimeValid ? '' : ' is invalid';
+            //     break;
             default:
                 break;
         }
@@ -135,9 +136,9 @@ class LaunchPad2 extends Component {
                         hardCapValid: hardCapValid,
                         minBuyValid: minBuyValid,
                         maxBuyValid: maxBuyValid,
-                        liquidityValid: liquidityValid,
+                        // liquidityValid: liquidityValid,
                         // listingRateValid: listingRateValid,
-                        liquidityLockTimeValid: liquidityLockTimeValid,
+                        // liquidityLockTimeValid: liquidityLockTimeValid,
                         // routerValid: routerValid,
                         fromValid: fromValid,
                         toValid: toValid
@@ -145,7 +146,7 @@ class LaunchPad2 extends Component {
     }
       
     validateForm() {
-        this.setState({formValid: this.state.presaleRateValid  && this.state.softCapValid && this.state.hardCapValid && this.state.minBuyValid && this.state.maxBuyValid && this.state.liquidityValid && this.state.liquidityLockTimeValid });
+        this.setState({formValid: this.state.presaleRateValid  && this.state.softCapValid && this.state.hardCapValid && this.state.minBuyValid && this.state.maxBuyValid });
     }
       
     render(){
@@ -196,7 +197,7 @@ class LaunchPad2 extends Component {
                                                     <div className="control"><input className={classnames("form-control form-control-lg", {
                                             "is-invalid": this.state.formErrors.softCap })} type="number" placeholder="Ex: 10" id="softCap" name="softCap" autoComplete="on" value={this.state.softCap} onChange={(event) => this.handleInput(event)}   />
                                                         <div className="invalid-feedback">{this.state.formErrors.softCap}</div>
-                                                        <p className="help is-info">Softcap must be &gt;= 50% of Hardcap!</p>
+                                                        <p className="help is-info">Softcap must be &gt;= 25% of Hardcap!</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -267,14 +268,15 @@ class LaunchPad2 extends Component {
                                             </div>
                                         </div> */}
                                         <div className="columns">
-                                            <div className="column">
+                                            {/* <div className="column">
                                                 <div className="field"><label className="label" htmlFor="liquidity"> liquidity (%)<sup className="has-text-danger">*</sup></label>
                                                     <div className="control"><input className={classnames("form-control form-control-lg", {
                                             "is-invalid": this.state.formErrors.liquidity })} type="number" placeholder="Ex: 52" id="liquidity" name="liquidity" autoComplete="on" value={this.state.liquidity} onChange={(event) => this.handleInput(event)}  />
                                                         <div className="invalid-feedback">{this.state.formErrors.liquidity}</div>
+                                                        <p className="help is-info">Liquidity must be at least 50%</p>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> */}
                                             {/* <div className="column">
                                                 <div className="field"><label className="label" htmlFor="listingRate"> listing rate<sup className="has-text-danger">*</sup></label>
                                                     <div className="control"><input className={classnames("form-control form-control-lg", {
@@ -293,7 +295,8 @@ class LaunchPad2 extends Component {
                                                 <p className="help is-info">If I spend 1 BNB on how many tokens will I receive? Usually this amount is lower than presale rate to allow for a higher listing price on </p>
                                             </li>
                                         </ul> */}
-                                        <div className="field"><label className="label" htmlFor="startTime">Select start time &amp; end time (UTC)<sup className="has-text-danger">*</sup></label>
+                                        <div className="field">
+                                            {/* <label className="label" htmlFor="startTime">Select start time &amp; end time (UTC)<sup className="has-text-danger">*</sup></label> */}
                                             <div className="columns mb-0">
                                                 <div className="column"><label className="label" htmlFor="startTime">Start time (UTC)<sup className="has-text-danger">*</sup></label>
                                                     <input 
@@ -317,15 +320,16 @@ class LaunchPad2 extends Component {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="field"><label className="label" htmlFor="liquidityLockTime">Liquidity lockup (minutes)<sup className="has-text-danger">*</sup></label>
+                                        {/* <div className="field"><label className="label" htmlFor="liquidityLockTime">Liquidity lockup (minutes)<sup className="has-text-danger">*</sup></label>
                                             <div className="control"><input className={classnames("form-control form-control-lg", {
                                             "is-invalid": this.state.formErrors.liquidityLockTime })} type="number" placeholder="30 days" id="liquidityLockTime" name="liquidityLockTime" autoComplete="on" value={this.state.liquidityLockTime} onChange={(event) => this.handleInput(event)}  />
                                                 <div className="invalid-feedback">{this.state.formErrors.liquidityLockTime}</div>
                                             </div>
-                                        </div>
+                                            <p className="help is-info">Liquidity locktime must be at least 5 minutes</p>
+                                        </div> */}
                                         
                                         <div className="has-text-centered">
-                                            <div className="has-text-info p-4">Need 0 www to create launchpad.</div><a href="/LaunchPad1" className="btn btn-secondary"  style={{backgroundImage: 'linear-gradient(135deg,#ebd15f,#fa0)'}}><span>Back</span></a><span className="mr-4"></span><a href={this.state.formValid?'/LaunchPad3':'#'} className="btn btn-primary"  style={{backgroundImage: 'linear-gradient(135deg,#ebd15f,#fa0)'}}><span>Next</span></a>
+                                            <div className="has-text-info p-4">Need {this.state.hardCap} {window.localStorage.getItem("tokenSymbol")} to create launchpad.</div><a href="/LaunchPad1" className="btn btn-secondary"  style={{backgroundImage: 'linear-gradient(135deg,#ebd15f,#fa0)'}}><span>Back</span></a><span className="mr-4"></span><a href={this.state.formValid?'/LaunchPad3':'#'} className="btn btn-primary"  style={{backgroundImage: 'linear-gradient(135deg,#ebd15f,#fa0)'}}><span>Next</span></a>
                                         </div>
                                     </form>
                                 </div>
