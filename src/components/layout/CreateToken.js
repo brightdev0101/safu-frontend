@@ -45,7 +45,8 @@ class CreateToken extends Component {
         const decimals = this.state.decimals;
         const totalSupply = this.state.totalSupply;
         console.log(totalSupply);
-        const signer = parse(window.localStorage.getItem("signer"));
+        if(window.localStorage.getItem("signer")){
+            const signer = parse(window.localStorage.getItem("signer"));
         const userAddress = window.localStorage.getItem("userAddress");
         console.log(signer);
 
@@ -96,6 +97,10 @@ class CreateToken extends Component {
                 // // address backend db save
 
             }).catch(err => console.log(err));
+        } else {
+            alert('You must connect!')
+        }
+        
     
     }
 
