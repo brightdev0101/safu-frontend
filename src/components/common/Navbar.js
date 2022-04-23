@@ -54,19 +54,24 @@ const Navbar = () => {
        
     return ( 
     <>
-        <nav className = "navbar navbar-expand-md bg-dark navbar-dark" style={{textAlign: 'left', color: '#fff', backgroundColor: '#fff'}}>
-        
-            <a href = "/" ><img src = { Logo } className = "photo"  alt = "logo" style={{marginLeft: '-35px'}} /></a>
-            
-            <img onClick={login} width="50" src={MetamaskImg} className="rounded-circle" style={{marginRight:'20px', marginLeft:'20px'}} alt="m" />
-            <img onClick={login2} width="50" src={WalletconnectImg}  className="rounded-circle" style={{marginRight:'20px'}}alt="w" />
-      {!isAuthenticated ? "": <button onClick={logOut} width="50" className="btn btn-primary" 
-      style={{backgroundImage: 'linear-gradient(135deg,#ebd15f,#fa0)', marginRight:'20px'}} >
-        disconnect</button> }
-     
-            
+        <nav className = "navbar navbar-expand-md bg-dark navbar-dark" style={{textAlign: 'left', color: '#fff', backgroundColor: '#fff', display: 'flex'}}>
 
-            <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+            <a href = "/" ><img src = { Logo } className = "photo big-small-screen"  alt = "logo" /></a>
+            {
+            !isAuthenticated ? 
+              <div className="dropdown" style={{minWidth: '15rem'}}>
+                <button type="button" className="btn btn-primary dropdown-toggle" data-toggle="dropdown" style={{backgroundImage: 'linear-gradient(135deg,#ebd15f,#fa0)'}}>
+                  Connect
+                </button>
+                <div className="dropdown-menu">
+                  <img onClick={login} width="50" src={MetamaskImg} className="rounded-circle" style={{marginRight:'20px', marginLeft:'20px'}} alt="m" />MetaMask
+                  <img onClick={login2} width="50" src={WalletconnectImg}  className="rounded-circle" style={{marginRight:'20px', marginLeft:'20px'}}alt="w" />WalletConnect
+                </div>
+              </div>
+              : 
+              <button onClick={logOut} width="50" className="btn btn-primary" style={{backgroundImage: 'linear-gradient(135deg,#ebd15f,#fa0)', marginRight:'20px'}} >disconnect</button> }
+
+            <button className="navbar-toggler" id="toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
                 <span className="navbar-toggler-icon"></span>
             </button>
             <div className="collapse navbar-collapse" id="collapsibleNavbar">

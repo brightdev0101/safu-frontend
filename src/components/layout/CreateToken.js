@@ -44,14 +44,14 @@ class CreateToken extends Component {
         const symbol = this.state.symbol;
         const decimals = this.state.decimals;
         const totalSupply = this.state.totalSupply;
-
-        const signer = parse(window.localStorage.getItem("signer"));
+        console.log(totalSupply);
+        if(window.localStorage.getItem("signer")){
+            const signer = parse(window.localStorage.getItem("signer"));
         const userAddress = window.localStorage.getItem("userAddress");
-
+        console.log(signer);
 
         axios.get("http://localhost:3001/api/getTokenContract")
             .then(async (res) => {
-
                 const bytecode = res.data.evm.bytecode.object;
                 const abi = res.data.abi;
                 const chainID = signer.provider._network.chainId;
@@ -97,6 +97,10 @@ class CreateToken extends Component {
                 // // address backend db save
 
             }).catch(err => console.log(err));
+        } else {
+            alert('You must connect!')
+        }
+        
     
     }
 
