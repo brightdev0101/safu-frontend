@@ -5,27 +5,55 @@ import { getVerify } from "../../actions/verifyActions";
 import { bindActionCreators } from "redux";
 import PropTypes from 'prop-types';
 import { Link } from "react-router-dom";
+import Web3 from 'web3';
+import {parse, stringify} from 'flatted';
+import axios from 'axios';
 
 import "./styles.css";
 
 class LaunchPad1 extends Component {
     constructor (props) {
         super(props);
-        
+       
         this.state = {
+            abi: '',
             tokenAddress: '',
             formErrors: {tokenAddress: ''},
             tokenAddressValid: false,
             formValid: false
         };
+
+        axios.get("http://localhost:3001/api/getTokenContract")
+            .then(async (res) => {
+                const abi = res.data.abi;
+                this.state.abi = abi;
+            }).catch(err => console.log(err));
     }
 
     handleInput (e) {
         const name = e.target.name;
         const value = e.target.value;
-        this.setState({[name]: value}, () => { this.validateField(name, value)});
-        // window.localStorage.setItem(name, JSON.stringify(value));
-        window.localStorage.setItem(name, value);
+        this.setState({[name]: value}, () => { 
+            this.validateField(name, value);
+
+            console.log(this.state.tokenAddress);
+            console.log(this.state.tokenAddressValid);
+
+            if(this.state.tokenAddressValid){
+
+                console.log("ok");
+                const abi = this.state.abi;
+                const web3 = new Web3(Web3.givenProvider);
+    
+                // console.log(abi);
+                const tokenContract = new web3.eth.Contract(abi, value);
+                // console.log(tokenContract);
+                tokenContract.methods.name().call().then(console.log);
+                tokenContract.methods.symbol().call().then(console.log);
+                window.localStorage.setItem(name, value);
+            }
+        });
+
     }
     
     validateField(fieldName, value) {
@@ -34,7 +62,7 @@ class LaunchPad1 extends Component {
       
         switch(fieldName) {
           case 'tokenAddress':
-            tokenAddressValid =  value.match(/^(0x[0-9a-f]{2})(,0x[0-9a-f]{2})*$/i);
+            tokenAddressValid =  value.match(/^(0x[0-9a-f]{40})(,0x[0-9a-f]{40})*$/i);
             fieldValidationErrors.tokenAddress = tokenAddressValid ? '' : ' is invalid';
             break;
           default:
