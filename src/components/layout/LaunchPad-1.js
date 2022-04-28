@@ -25,7 +25,8 @@ class LaunchPad1 extends Component {
             tokenAddressError: '',
             tokenAddressValid: false,
             formValid: false,
-            tokenChainValid: false
+            tokenChainValid: false,
+            tokenAddressOrig: []
         };
 
         axios.get("http://localhost:3001/api/getTokenContract")
@@ -33,6 +34,11 @@ class LaunchPad1 extends Component {
                 const abi = res.data.abi;
                 this.state.abi = abi;
             }).catch(err => console.log(err));
+
+        axios.get("http://localhost:3001/api/getAll")
+            .then(async(res)=>{
+                this.state.tokenAddressOrig = res.data;
+            }).catch(err=>console.log(err));
     }
 
     handleInput (e) {
@@ -72,33 +78,45 @@ class LaunchPad1 extends Component {
             if(web3.utils.isAddress(this.state.tokenAddress)){
                 web3.eth.getCode(this.state.tokenAddress).then(res=>{
                     if(res != "0x"){
-                        const tokenContract = new web3.eth.Contract(abi, this.state.tokenAddress);
-                        tokenContract.methods.name().call().then(res=>{
-                            this.setState({tokenName:res});
-                            window.localStorage.setItem("tokenName",res);
-                        });
-                        tokenContract.methods.symbol().call().then(res=>{
-                            this.setState({tokenSymbol:res});
-                            window.localStorage.setItem("tokenSymbol",res);
-                        });
-                        tokenContract.methods.decimals().call().then(res=>{
-                            this.setState({tokenDecimals:res});
-                            window.localStorage.setItem("tokenDecimals",res);
-                        });
-                        tokenContract.methods.totalSupply().call().then(res=>{
-                            this.setState({tokenSupply:res});
-                            window.localStorage.setItem("tokenSupply",res);
-                        });
-                        this.setState({tokenChainValid: true});
-                        this.setState({formValid: this.state.tokenAddressValid});
-                        window.localStorage.setItem("tokenAddress",this.state.tokenAddress);
+
+                        for(let i=0; i<this.state.tokenAddressOrig.length; i++){
+                            if(this.state.tokenAddress == this.state.tokenAddressOrig[i].token){
+                                this.setState({ tokenAddressError: "This token already has presale",
+                                                tokenAddressValid: false,
+                                                formValid: false
+                                });
+                            }
+                        }
+
+                        if(this.state.tokenAddressValid == true){
+                            const tokenContract = new web3.eth.Contract(abi, this.state.tokenAddress);
+                            tokenContract.methods.name().call().then(res=>{
+                                this.setState({tokenName:res});
+                                window.localStorage.setItem("tokenName",res);
+                            });
+                            tokenContract.methods.symbol().call().then(res=>{
+                                this.setState({tokenSymbol:res});
+                                window.localStorage.setItem("tokenSymbol",res);
+                            });
+                            tokenContract.methods.decimals().call().then(res=>{
+                                this.setState({tokenDecimals:res});
+                                window.localStorage.setItem("tokenDecimals",res);
+                            });
+                            tokenContract.methods.totalSupply().call().then(res=>{
+                                this.setState({tokenSupply:res});
+                                window.localStorage.setItem("tokenSupply",res);
+                            });
+                            this.setState({tokenChainValid: true});
+                            this.setState({formValid: this.state.tokenAddressValid});
+                            window.localStorage.setItem("tokenAddress",this.state.tokenAddress);
+                        }     
                     }
                 }).catch(err=>console.log(err));
             }else{
-                this.state.formValid= false;
+                this.setState({formValid:false});
             }      
         }else{
-            this.state.formValid = false;
+            this.setState({formValid:false});
         }
     }
 
