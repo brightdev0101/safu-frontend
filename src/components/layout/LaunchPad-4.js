@@ -9,6 +9,7 @@ class LaunchPad4 extends Component {
     constructor (props) {
         super(props);
         this.state = {
+            presaleAddress: '',
             logoUrl: '',
             website: '',
             formErrors: {logoUrl: '', website: ''},
@@ -79,10 +80,9 @@ class LaunchPad4 extends Component {
                 }).on('confirmation', () => {}).then((newContractInstance) => {
                     // console.log(newContractInstance);
                     console.log('Deployed Contract Address : ', newContractInstance.options.address);
-                    this.setState({'PresaleAddress':newContractInstance.options.address});
+                    this.setState({'presaleAddress':newContractInstance.options.address});
                     window.localStorage.setItem("presaleAddress",newContractInstance.options.address);
 
-                    console.log(newContractInstance);
                     newContractInstance.methods.init_presale(
                         window.localStorage.getItem("tokenAddress"),
                         window.localStorage.getItem("presaleRate"),
@@ -216,6 +216,7 @@ class LaunchPad4 extends Component {
                                             </table>
                                         </div>
                                     </div>
+                                    <p>{this.state.presaleAddress} </p>
                                     
                                     <div className="has-text-centered">
                                         <a href="/LaunchPad3" className="btn btn-secondary"  style={{backgroundImage: 'linear-gradient(135deg,#ebd15f,#fa0)'}}><span>Back</span></a><span className="mr-4"></span><button type="submit" className="btn btn-danger"  style={{backgroundImage: 'linear-gradient(135deg,#ebd15f,#fa0)'}}><span>Submit</span></button>
@@ -237,7 +238,7 @@ LaunchPad4.propTypes = {
 };
   
 const mapStateToProps = state => ({
-    tokenAddress: state.tokenAddress
+    presaleAddress: state.presaleAddress
     // errors: state.errors
 });
   

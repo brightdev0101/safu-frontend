@@ -86,7 +86,7 @@ class LaunchPad2 extends Component {
                 fieldValidationErrors.presaleRate = presaleRateValid ? '' : ' is invalid';
                 break;
             case 'softCap':
-                softCapValid = ( value >= this.state.hardCap/4 && Number(value) < Number(this.state.hardCap) ) ;
+                softCapValid = ( Number(value) >= Number(this.state.hardCap)/4 && Number(value) < Number(this.state.hardCap) ) ;
                 fieldValidationErrors.softCap = softCapValid ? '' : ' is invalid';
                 break;
             case 'hardCap':
@@ -329,7 +329,7 @@ class LaunchPad2 extends Component {
                                         </div> */}
                                         
                                         <div className="has-text-centered">
-                                            <div className="has-text-info p-4">Need {this.state.hardCap} {window.localStorage.getItem("tokenSymbol")} to create launchpad.</div><a href="/LaunchPad1" className="btn btn-secondary"  style={{backgroundImage: 'linear-gradient(135deg,#ebd15f,#fa0)'}}><span>Back</span></a><span className="mr-4"></span><a href={this.state.formValid?'/LaunchPad3':'#'} className="btn btn-primary"  style={{backgroundImage: 'linear-gradient(135deg,#ebd15f,#fa0)'}}><span>Next</span></a>
+                                            <div className="has-text-info p-4">Need {this.state.hardCap*this.state.presaleRate} {window.localStorage.getItem("tokenSymbol")} to create launchpad.</div><a href="/LaunchPad1" className="btn btn-secondary"  style={{backgroundImage: 'linear-gradient(135deg,#ebd15f,#fa0)'}}><span>Back</span></a><span className="mr-4"></span><a href={this.state.formValid?'/LaunchPad3':'#'} className="btn btn-primary"  style={{backgroundImage: 'linear-gradient(135deg,#ebd15f,#fa0)'}}><span>Next</span></a>
                                         </div>
                                     </form>
                                 </div>
