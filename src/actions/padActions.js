@@ -29,17 +29,21 @@ export const getPads = () => dispatch => {
         const orders = res1.data;
         const orderedItemNames = orders
                               .filter(order => order.launchpad != null)
+                              .filter(order => order.chainID == "97")   //only show BSC
                               .map(order => order.launchpad);
 
         const listSize = orderedItemNames.length;
-        orderedItemNames.forEach((launchpad, key) => { 
-            axios.get("http://localhost:3001/api/getPresaleContract")
-                .then( (res) => {
+        
+        axios.get("http://localhost:3001/api/getPresaleContract")
+            .then( (res) => {
+                orderedItemNames.forEach((launchpad, key) => { 
+
                     const abi = res.data.abi;
                     const web3 = new Web3(Web3.givenProvider);
                     const presaleContract = new web3.eth.Contract(abi, launchpad);
                     
                     presaleContract.methods.tokeninfo().call().then(res=>{
+                        console.log(res);
                         padData.title = res.name;
                         padData.symbol = res.symbol;
                     }).catch(err=>console.log(err));
@@ -55,10 +59,14 @@ export const getPads = () => dispatch => {
                         padData.from = from1;
                         padData.to = to1;
 
-                        pads.push(padData);
+                        console.log("key---------");
+                        console.log(key);
+                        console.log("data---------");
+                        console.log(padData);
+                        pads[key] = padData;
 
                         if(pads.length == listSize){
-                            console.log("action");
+                            console.log("output-----------");
                             console.log(pads);
                             dispatch({
                                 type: GET_PADS,
@@ -66,12 +74,12 @@ export const getPads = () => dispatch => {
                             })
                         }
 
-                        console.log("inside");
-                        console.log(pads);
-
                     }).catch(err=>console.log(err));
-                }).catch(err=>console.log(err));  
-            });     
+
+                });  
+
+        }).catch(err=>console.log(err));  
+           
         
     }).catch(err => dispatch({
             type: GET_PADS,
