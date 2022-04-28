@@ -84,6 +84,7 @@ class CreateToken extends Component {
                     .then(console.log("success")).catch(err=>console.log(err));
                 })
                 
+                window.location.href = "localhost:3000/TokenRes";
                 // const factory = new ethers.ContractFactory(abi, bytecode, signer);    
                 
                 // let contract = await factory.deploy(tokenName, symbol, decimals, totalSupply,"0xD99D1c33F9fC3444f8101754aBC46c52416550D1");

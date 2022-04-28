@@ -29,6 +29,7 @@ export const getPads = () => dispatch => {
         const orders = res1.data;
         const orderedItemNames = orders
                               .filter(order => order.launchpad != null)
+                              .filter(order => order.chainID == "97")   //only show BSC
                               .map(order => order.launchpad);
 
         const listSize = orderedItemNames.length;
@@ -42,6 +43,7 @@ export const getPads = () => dispatch => {
                     const presaleContract = new web3.eth.Contract(abi, launchpad);
                     
                     presaleContract.methods.tokeninfo().call().then(res=>{
+                        console.log(res);
                         padData.title = res.name;
                         padData.symbol = res.symbol;
                     }).catch(err=>console.log(err));

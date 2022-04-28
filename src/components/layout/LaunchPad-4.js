@@ -75,6 +75,8 @@ class LaunchPad4 extends Component {
                         chainID : chainID
                     })
                     .then(console.log("success")).catch(err=>console.log(err));
+                    window.location.href = "localhost:3000/LaunchRes";
+                    
                 })
             }).catch(err => console.log(err));
         } else {

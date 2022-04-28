@@ -23,23 +23,22 @@ function Card(props) {
                     </div>
                 </div> */}
                 <div className="content-title">
-                    <p className="title"><span><strong>{props.title}</strong></span></p>
+                <h2><p className="title"><span><strong>{props.title}</strong></span></p></h2>
                     <p className="subtitle">1 BNB = {props.rate}{props.symbol}</p>
                 </div>
                 <div className="soft-hard-cap">
-                    <p>Soft/Hard Cap:</p><span>{props.softCap} BNB - {props.hardCap} BNB</span>
+                    <p>SoftCap: <span>{props.softCap} BNB </span></p>
+                    <p>HardCap: <span>{props.hardCap} BNB </span></p>
                 </div>
-                <div className="content-progress">
-                    {/* <p>
-                        <strong>Progress ({pro}%)</strong></p>
-                    <div className="progress">
-                        <div className="progress-bar" style={{width:'70%'}}>{pro}%</div>
-                    </div> */}
-                    <div className="sub-title is-flex is-align-items-center">
-                        <div className="is-flex-grow-1">{props.minBuy} BNB</div>
-                        <div className="is-flex-grow-1 has-text-right">{props.maxBuy} BNB</div>
-                    </div>
+                <div className="soft-hard-cap">
+                    <p>MinBuy:{props.minBuy} BNB</p>
+                    <p>MaxBuy:{props.maxBuy} BNB</p>
                 </div>
+                <div className="soft-hard-cap">
+                    <p>From:<strong><span>{props.from}</span></strong></p>
+                    <p>To:<strong><span>{props.to}</span></strong></p>
+                </div>
+                
                 {/* <div className="liquidity-percent">
                     <div className="is-flex is-align-items-center">
                         <p className="is-flex-grow-1">Liquidity %:</p><span className="is-flex-grow-1 has-text-right time-text">{liquidity}</span></div>
@@ -48,28 +47,7 @@ function Card(props) {
                     <div className="is-flex is-align-items-center">
                         <p className="is-flex-grow-1">Lockup Time:</p><span className="is-flex-grow-1 has-text-right time-text">{lockupTime}</span></div>
                 </div> */}
-                <div className="custom-card-footer">
-                    <div className="is-flex is-align-items-center">
-                        {/* <div className="countdown is-flex-grow-1 is-flex-direction-column">
-                            <div>Sale Ends In:</div>
-                            <div className="countdown-text"><strong><span>{date}</span><span className="dotdot">:</span><span>{hour}</span><span className="dotdot">:</span><span>{minute}</span><span className="dotdot">:</span><span>{second}</span></strong></div>
-                        </div> */}
-                        <div className="countdown is-flex-grow-1 is-flex-direction-column">
-                            <div>From:</div>
-                            <div className="countdown-text"><strong><span>{props.from}</span></strong></div>
-                        </div>
-                        <div className="countdown is-flex-grow-1 is-flex-direction-column">
-                            <div>To:</div>
-                            <div className="countdown-text"><strong><span>{props.to}</span></strong></div>
-                        </div>
-                    </div>
-                </div><br/>
-                  <div className="view-pool has-text-right">
-                      <a className="view-button" href="/PadInfo" >
-                      {/* 0xaCD587c5dB11796682F6B1C9d88Cd08DB3bAEE50?chain=BSC-Test"> */}
-                          <span className="btn btn-primary rounded-pill"  style={{backgroundImage: 'linear-gradient(135deg,#ebd15f,#fa0)'}}>View Pool</span>
-                      </a>
-                  </div>
+                
             </div>
         </div>
       </div>
