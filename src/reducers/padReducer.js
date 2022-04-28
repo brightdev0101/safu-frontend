@@ -18,8 +18,6 @@ export default function(state = initialState, action) {
         };
 
         case GET_PADS:
-            console.log("reducer");
-            console.log(action.payload);
         return {
             ...state,
             pads: action.payload,

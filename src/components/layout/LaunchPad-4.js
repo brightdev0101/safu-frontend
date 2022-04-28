@@ -22,32 +22,6 @@ class LaunchPad4 extends Component {
 
     }
 
-    clickB(){
-        axios.get("http://localhost:3001/api/getPresaleContract")
-            .then(async (res) => {
-                const bytecode = res.data.evm.bytecode.object;
-                const abi = res.data.abi;
-
-                console.log(abi);
-
-                const web3 = new Web3(Web3.givenProvider);
-                const presaleContract = new web3.eth.Contract(abi, window.localStorage.getItem("presaleAddress"));
-
-                console.log(presaleContract);
-                presaleContract.methods.init_presale(
-                    window.localStorage.getItem("tokenAddress"),
-                    window.localStorage.getItem("presaleRate"),
-                    window.localStorage.getItem("minBuy"),
-                    window.localStorage.getItem("maxBuy"),
-                    window.localStorage.getItem("softCap"),
-                    window.localStorage.getItem("hardCap"),
-                    window.localStorage.getItem("fromTS"),
-                    window.localStorage.getItem("toTS")
-                ).call();
-            })
-        
-    }
-
     onSubmit(e) {
 
         e.preventDefault();
@@ -138,7 +112,6 @@ class LaunchPad4 extends Component {
                                 <p className="lead text-center">
                                     <i>Review your information</i>
                                 </p>
-                                <button onClick={this.clickB}>click this</button>
                                 <form onSubmit={this.onSubmit}>
                                     <div className="table-container">
                                         <div>

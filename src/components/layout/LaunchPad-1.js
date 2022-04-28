@@ -80,7 +80,7 @@ class LaunchPad1 extends Component {
                     if(res != "0x"){
 
                         for(let i=0; i<this.state.tokenAddressOrig.length; i++){
-                            if(this.state.tokenAddress == this.state.tokenAddressOrig[i].token){
+                            if(this.state.tokenAddress == this.state.tokenAddressOrig[i].token && this.state.tokenAddressOrig[i].launchpad !== null){
                                 this.setState({ tokenAddressError: "This token already has presale",
                                                 tokenAddressValid: false,
                                                 formValid: false
