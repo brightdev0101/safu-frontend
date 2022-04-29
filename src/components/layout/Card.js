@@ -3,6 +3,18 @@ import classnames from "classnames";
 import PropTypes from "prop-types";
 
 function Card(props) {
+    function viewPool(){
+        window.localStorage.setItem("title",props.title)
+        window.localStorage.setItem("rate",props.rate)
+        window.localStorage.setItem("symbol",props.symbol)
+        window.localStorage.setItem("softCap",props.softCap)
+        window.localStorage.setItem("hardCap",props.hardCap)
+        window.localStorage.setItem("minBuy",props.minBuy)
+        window.localStorage.setItem("maxBuy",props.maxBuy)
+        window.localStorage.setItem("from",props.from)
+        window.localStorage.setItem("to",props.to)
+        window.location.href = "localhost:3000/PadInfo"
+    }
     return (
         <div className="col-lg-3 col-xxl-4 mb-5">
         <div className="card bg-light border-0 h-100">
@@ -47,6 +59,14 @@ function Card(props) {
                     <div className="is-flex is-align-items-center">
                         <p className="is-flex-grow-1">Lockup Time:</p><span className="is-flex-grow-1 has-text-right time-text">{lockupTime}</span></div>
                 </div> */}
+
+                <br/>
+                  <div className="view-pool has-text-right">
+                      {/* <a className="view-button" href="/PadInfo" > */}
+                      {/* 0xaCD587c5dB11796682F6B1C9d88Cd08DB3bAEE50?chain=BSC-Test"> */}
+                          <button className="btn btn-primary rounded-pill"  onClick={viewPool} style={{backgroundImage: 'linear-gradient(135deg,#ebd15f,#fa0)'}}>View Pool</button>
+                      {/* </a> */}
+                  </div>
                 
             </div>
         </div>

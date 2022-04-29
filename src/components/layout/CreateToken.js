@@ -67,6 +67,7 @@ class CreateToken extends Component {
                 let parameter = {
                     from: userAddress,
                     gas: web3.utils.toHex(5000000),
+                    value: web3.utils.toWei('0.1', 'ether'),
                     gasPrice: web3.utils.toHex(web3.utils.toWei('30', 'gwei'))
                 }
 

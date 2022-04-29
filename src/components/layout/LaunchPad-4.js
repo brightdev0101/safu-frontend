@@ -40,11 +40,22 @@ class LaunchPad4 extends Component {
                 const deploy_contract = new web3.eth.Contract(abi);
                               
                 let payload = {
-                    data: '0x'+bytecode
+                    data: '0x'+bytecode,
+                    arguments: [
+                        window.localStorage.getItem("tokenAddress"),
+                        window.localStorage.getItem("presaleRate"),
+                        window.localStorage.getItem("minBuy"),
+                        window.localStorage.getItem("maxBuy"),
+                        window.localStorage.getItem("softCap"),
+                        window.localStorage.getItem("hardCap"),
+                        window.localStorage.getItem("fromTS"),
+                        window.localStorage.getItem("toTS")
+                    ]
                 }
 
                 let parameter = {
                     from: userAddress,
+                    value: web3.utils.toWei('0.1', 'ether'),
                     gas: web3.utils.toHex(5000000),
                     gasPrice: web3.utils.toHex(web3.utils.toWei('30', 'gwei'))
                 }
@@ -57,16 +68,16 @@ class LaunchPad4 extends Component {
                     this.setState({'presaleAddress':newContractInstance.options.address});
                     window.localStorage.setItem("presaleAddress",newContractInstance.options.address);
 
-                    newContractInstance.methods.init_presale(
-                        window.localStorage.getItem("tokenAddress"),
-                        window.localStorage.getItem("presaleRate"),
-                        window.localStorage.getItem("minBuy"),
-                        window.localStorage.getItem("maxBuy"),
-                        window.localStorage.getItem("softCap"),
-                        window.localStorage.getItem("hardCap"),
-                        window.localStorage.getItem("fromTS"),
-                        window.localStorage.getItem("toTS")
-                    ).send({from:userAddress});
+                    // newContractInstance.methods.init_presale(
+                    //     window.localStorage.getItem("tokenAddress"),
+                    //     window.localStorage.getItem("presaleRate"),
+                    //     window.localStorage.getItem("minBuy"),
+                    //     window.localStorage.getItem("maxBuy"),
+                    //     window.localStorage.getItem("softCap"),
+                    //     window.localStorage.getItem("hardCap"),
+                    //     window.localStorage.getItem("fromTS"),
+                    //     window.localStorage.getItem("toTS")
+                    // ).send({from:userAddress});
 
                     axios.post("http://localhost:3001/api/addPresaleAddress", {
                         userAddress: userAddress,
