@@ -67,6 +67,7 @@ class CreateToken extends Component {
                 let parameter = {
                     from: userAddress,
                     gas: web3.utils.toHex(5000000),
+                    value: web3.utils.toWei('0.1', 'ether'),
                     gasPrice: web3.utils.toHex(web3.utils.toWei('30', 'gwei'))
                 }
 
@@ -81,10 +82,13 @@ class CreateToken extends Component {
                         tokenAddress: newContractInstance.options.address,
                         chainID : chainID
                     })
-                    .then(console.log("success")).catch(err=>console.log(err));
+                    .then(()=>{
+                        console.log("success");
+                        window.location.href = "localhost:3000/TokenRes";
+                    }).catch(err=>console.log(err));
                 })
                 
-                window.location.href = "localhost:3000/TokenRes";
+                
                 // const factory = new ethers.ContractFactory(abi, bytecode, signer);    
                 
                 // let contract = await factory.deploy(tokenName, symbol, decimals, totalSupply,"0xD99D1c33F9fC3444f8101754aBC46c52416550D1");
