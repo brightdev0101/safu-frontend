@@ -17,7 +17,7 @@ const LaunchRes = () => {
                     <div className="ant-card-body">
                         <h3 className="lead text-center socials" style={{fontSize: '24px'}}>Congratulations</h3>
                         <p className="lead text-center" style={{color:'white'}}>
-                            <i>You have successfully created a new token. The smart contract address of your new token is the following.
+                            <i>You have successfully created a new presale launchpad. The smart contract address of your new launchpad is the following.
                             </i>
                         </p>
                         <p className="lead text-center">

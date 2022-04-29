@@ -85,8 +85,11 @@ class LaunchPad4 extends Component {
                         presaleAddress: newContractInstance.options.address,
                         chainID : chainID
                     })
-                    .then(console.log("success")).catch(err=>console.log(err));
-                    window.location.href = "localhost:3000/LaunchRes";
+                    .then(()=>{
+                        console.log("success");
+                        window.location.href = "localhost:3000/LaunchRes";
+                    }).catch(err=>console.log(err));
+                    
                     
                 })
             }).catch(err => console.log(err));

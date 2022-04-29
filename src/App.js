@@ -15,6 +15,8 @@ import LaunchPad1 from './components/layout/LaunchPad-1';
 import LaunchPad2 from './components/layout/LaunchPad-2';
 import LaunchPad3 from './components/layout/LaunchPad-3';
 import LaunchPad4 from './components/layout/LaunchPad-4';
+import TokenRes from './components/layout/TokenRes';
+import LaunchRes from './components/layout/LaunchRes';
 
 class App extends Component {
 
@@ -35,6 +37,8 @@ class App extends Component {
                   <Route path="/LaunchPad2" component={LaunchPad2}/>
                   <Route exact path="/LaunchPad3" component={LaunchPad3}/>
                   <Route exact path="/LaunchPad4" component={LaunchPad4}/>
+                  <Route exact path="/TokenRes" component={TokenRes}/>
+                  <Route exact path="/LaunchRes" component={LaunchRes}/>
                 </Switch>
                 <Footer />
             </div>

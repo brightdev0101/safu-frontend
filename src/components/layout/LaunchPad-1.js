@@ -77,6 +77,7 @@ class LaunchPad1 extends Component {
 
             if(web3.utils.isAddress(this.state.tokenAddress)){
                 web3.eth.getCode(this.state.tokenAddress).then(res=>{
+                    console.log(res);
                     if(res != "0x"){
 
                         for(let i=0; i<this.state.tokenAddressOrig.length; i++){
@@ -110,6 +111,12 @@ class LaunchPad1 extends Component {
                             this.setState({formValid: this.state.tokenAddressValid});
                             window.localStorage.setItem("tokenAddress",this.state.tokenAddress);
                         }     
+                    } else {
+                        this.setState({
+                            formValid : false,
+                            tokenAddressError: "this address is not a token",
+                            tokenAddressValid: false
+                        });
                     }
                 }).catch(err=>console.log(err));
             }else{
