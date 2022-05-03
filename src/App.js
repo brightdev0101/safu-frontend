@@ -18,6 +18,9 @@ import LaunchPad4 from './components/layout/LaunchPad-4';
 import TokenRes from './components/layout/TokenRes';
 import LaunchRes from './components/layout/LaunchRes';
 
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import Sidebar from './components/layout/Sidebar';
+
 class App extends Component {
 
   render()
@@ -28,6 +31,7 @@ class App extends Component {
           <Router forceRefresh={true}>
             <div className="App">
                 <Navbar />
+                <Sidebar />
                 <Switch>
                   <Route exact path="/" component={Home}/>
                   <Route exact path="/PadList" component={PadList}/>
@@ -39,6 +43,8 @@ class App extends Component {
                   <Route exact path="/LaunchPad4" component={LaunchPad4}/>
                   <Route exact path="/TokenRes" component={TokenRes}/>
                   <Route exact path="/LaunchRes" component={LaunchRes}/>
+                  <Route exact path="/Sidebar" component={Sidebar}/>
+
                 </Switch>
                 <Footer />
             </div>

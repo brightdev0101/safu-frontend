@@ -3,7 +3,7 @@
       text-align: center!important
   }
   .big-small-screen{
-    margin-left: -35px;
+    /* margin-left: -35px; */
     margin-right: 0px
   }
   #toggler{
@@ -14,7 +14,7 @@
 @media print,
 screen and (min-width:769px) {
   .big-small-screen{
-    margin-left: -35px;
+    /* margin-left: -35px; */
     margin-right: 50px
   }
   .has-text-centered-tablet {

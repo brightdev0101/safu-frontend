@@ -1,6 +1,8 @@
 import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import "../layout/styles.css";
+// import "../layout/side";
+
 import Logo from './img/logo.png';
 import MetamaskImg from "./img/metamask.jpg";
 import WalletconnectImg from "./img/walletconnect.png";
